@@ -23,10 +23,6 @@ Installation
 
 ::
 
-  $ pip install .
-
 Running the Tests
 -----------------
 ::
-
-  $ pytest -v
