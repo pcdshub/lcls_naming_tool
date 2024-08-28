@@ -1,0 +1,56 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+    "setuptools>=45",
+    "setuptools_scm[toml]>=6.2"
+]
+
+[project]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+]
+
+description = "A tool that checks the form and content of names with respect to the LCLS naming convention."
+dynamic = [ "version", "readme", "dependencies", "optional-dependencies",]
+keywords = []
+name = "lcls_naming_tool"
+requires-python = ">=3.9"
+
+[options]
+zip_safe = false
+include_package_data = true
+
+[tool.setuptools.packages.find]
+where = [ ".",]
+include = [ "lcls_naming_tool*",]
+namespaces = false
+
+[[project.authors]]
+name = "SLAC National Accelerator Laboratory"
+
+[project.license]
+file = "LICENSE"
+
+[project.scripts]
+"lcls_naming_tool" = "lcls_naming_tool.bin.main:main"
+
+[tool.setuptools_scm]
+write_to = "lcls_naming_tool/_version.py"
+
+[tool.setuptools.dynamic.readme]
+file = "README.rst"
+
+[tool.setuptools.dynamic.dependencies]
+file = [ "requirements.txt",]
+
+[tool.setuptools.dynamic.optional-dependencies.test]
+file = "dev-requirements.txt"
+
+[tool.setuptools.dynamic.optional-dependencies.doc]
+file = "docs-requirements.txt"
+
+[tool.pytest.ini_options]
+addopts = "--cov=."
+
