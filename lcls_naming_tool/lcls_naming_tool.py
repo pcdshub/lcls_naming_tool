@@ -1,135 +1,187 @@
 '''
-LCLS Naming Tool
+    LCLS Naming Tool
 
-A tool for checking the form and content (but not meaning) of names with respect to the LCLS naming convention.
-The following variables are used according to LCLS_Photon_Source_and_Systems_Nomenclature.pdf:
+    A tool for checking the form and content (but not meaning) of PV names with 
+    respect to the LCLS naming convention.
 
-fc_prefix           # functional component prefix
-fc_seq_num          # functional component sequence number 
-fc_source_ltr       # functional component source letter
-fc_beam_num         # functional component beam path number
-fg_1                # fungible element (GGG_GGG) first part (before the underscore)
-fg_2                # fungible element second part (can be empty)
-ccc                 # constituent component type
-nn                  # increment
-xxxx                # control system process variable
+    A valid PV name is in the format FFFFF:GGG:CCC:NN:XXXX, where GGG and NN are 
+    optional and can be omitted.
 
-name_type           # 1 indicates a PV. 2 indicates a device.
+    This script only checks the validity of PV names (not devices).
+
+    Algorithm:
+
+        Only PV names (FFFFF:GGG:CCC:NN:XXXX) with 3 to 5 elements are valid because GGG and NN are optional/can be omitted.
+
+        The first element is always FFFFF and must be valid.
+
+        If there are 3 elements, there is no GGG and no NN. Check if CCC is valid.
+        
+        If there are 4 elements, there is no GGG or there is no NN. Check if one of them is valid. Check if CCC is valid:
+
+        If there are 5 elements, all elements must be valid.
 '''
 
-import os
-import re
+
+import sys
+import json
 
 
-fc_name ='' 
-fg_name = ''
-pv_name = ''
-device_name = ''
-
-fc_prefix_dict = {'AT': 'Attenuator',
-                    'AL': 'Alignment Laser',
-                    'BS': 'Bremsstrahlung Collimator'
-                }
-
-fg_dict = {'4FCCM': '',
-            '4FFOCUS': '',
-            'ATM': '',
-            'BCS': '',
-            'BCM': '',
-            'BEND': '',
-            'C1': '',
-            'C2': ''
-            }
-
-def add_fungible():
-
-    global fg_name
-    fg_term = input('\nEnter a fungible element term (GGG): ')
-
-    if fg_term in fg_dict:
-        if not fg_name: # if this is first term to be added to the fungible element
-            fg_name = fg_term
-            fg_term = ''
-        else:
-            fg_name += ('_' + fg_term)
-            fg_term = ''
+def functional_component_is_valid(fc_taxon):
+    # check length of the functional component
+    if (len(fc_taxon) == 5):
+        fc_prefix = str(fc_taxon[0] + fc_taxon[1])
+        fc_source_ltr = str(fc_taxon[3])
+        fc_beam_num = str(fc_taxon[4])
     else:
-        user_response = input('\nThis term does not exist in the current list of fungible terms. Continue using this name? (y/n): ')
+        print('Invalid')
+        sys.exit()
 
-        while (user_response not in ['y', 'n']):
-            user_response = input('\nI didn\'t recognize that letter. Continue using this name? (y/n): ')
+    # FFFFF is required
+    try:
+        fc_dict[fc_prefix]
+        beam_sources[fc_source_ltr]
+        beam_numbers[fc_beam_num]
 
-        if user_response=='y':
-            if not fg_name: # if this is first term to be added to the fungible element
-                fg_name = fg_term
-            else:
-                fg_name += ('_' + fg_term)
+    except KeyError:
+        print('Invalid')
+        sys.exit()
+
+    else:
+        return True
+
+
+def fungible_is_valid(fg_taxon):
+    try:
+        fg_components = fg_taxon.replace(
+            '_', ' ').replace(':', ' ').split()
+
+        for name in fg_components:
+            fg_dict[name]
+
+    except KeyError:
+        return False
+
+    else:
+        return True
+
+
+def constituent_component_is_valid(ccc_taxon):
+    try:
+        ccc_dict[ccc_taxon]  # ccc is required
+
+    except:
+        print('Invalid')
+        sys.exit()
+
+    else:
+        return True
+
+
+def increment_is_valid(nn_taxon):
+    # check the increment is an int and has at least 2 digits
+    try:
+        assert len(nn_taxon) >= 2
+        assert int(nn_taxon)
+
+    except AssertionError:
+        return False
+
+    else:
+        return True
 
 
 if __name__ == '__main__':
 
-    print('\nThe LCLS Naming Tool is designed to check the form and content (but not meaning) \nof names with respect to the LCLS naming convention.')
+    fc_dict = {}
+    fg_dict = {}
+    ccc_dict = {}
+    beam_sources = {'K': '', 'L': ''}
+    beam_numbers = {'0': '', '1': '', '2': '', '3': '', '4': '', '5': ''}
+    fc_valid = True
+    fg_valid = True
+    ccc_valid = True
+    nn_valid = True
 
-    name_type = input("\nAre you creating a PV or device name? (enter 1 for PV, 2 for device): ")
+    # Read the json files containing all the taxons
+    with open('functional_component_taxon.json') as fc_file:
+        fc_dict = json.load(fc_file)
 
-    while (name_type not in ['1', '2']):
-        name_type = input("\nPlease enter 1 for PV, 2 for device): ")
+    with open('fungible_element_taxon.json') as fg_file:
+        fg_dict = json.load(fg_file)
 
-    # FC prefix
-    print('\n=========================================\n         Functional Component        \n=========================================\n')
-    print('The functional component name is formed by prepending a two-letter component mnemonic \nprefix and sequence number to the beam path designation.')
+    with open('ccc_taxon.json') as ccc_file:
+        ccc_dict = json.load(ccc_file)
 
-    fc_prefix = input("\nEnter the prefix of the functional component: ")
+    user_input = input('\nEnter a PV name: ')
 
-    while (fc_prefix not in fc_prefix_dict.keys()):
-        fc_prefix = input("\nThis name is not in the Photon Beamline Component list. Please try again: ")
+    # Length of PV or device name cannot exceed 60 chars and cannot have decimals.
+    try:
+        assert '.' not in user_input
+        assert (len(user_input) <= 60)
 
-    fc_name += fc_prefix
-    print('%s: %s' %(fc_prefix, fc_prefix_dict[fc_prefix]))
+    except AssertionError:
+        print('Invalid')
+        sys.exit()
 
-    # FC sequence number
-    fc_seq_num =  input("\nEnter the sequence number of the functional component: ")
-    fc_name += str(fc_seq_num)
+    pv_name = user_input.split(':')
 
-    # FC source letter
-    fc_source_ltr = input("\nEnter the functional component undulator source letter (L or K): ")
+    # Check the length of the PV name is valid
+    if (len(pv_name) < 3) or (len(pv_name) > 5):
+        print('Invalid')
+        sys.exit()
 
-    while (fc_source_ltr not in ['L', 'K']):
-        fc_source_ltr = input("\nThis is not an undulator source letter. Please enter L or K: ")
+    # parse the functional component (FFFFF)
+    fc_taxon = list(pv_name[0])
+    fc_valid = functional_component_is_valid(fc_taxon)
 
-    fc_name += fc_source_ltr
+    # check for PV name with 3 elements
+    if (len(pv_name) == 3):
+        ccc_taxon = pv_name[1]
+        ccc_valid = constituent_component_is_valid(ccc_taxon)
 
-    # FC beam path number
-    fc_beam_num = int(input("\nEnter the beam path number of the functional component (0-5): "))
-
-    while not (0 <= int(fc_beam_num) <= 5):
-        fc_beam_num = input("\nThis is not a valid beam path number. Please enter a number between 0 and 5: ")
-
-    fc_name += str(fc_beam_num)
-
-    print('\nThe functional component name is %s' % fc_name)
-
-    # Fungible element first part
-    print('\n=========================================\n         Fungible Element        \n=========================================\n')
-    print('The fungible element can include multiple mnemonic terms separated by underscores. \nThe fungible element typically follows the format \'GGG\' with multiple \'GGG\' values \nseparated by an underscore.')
-
-    add_another_fg = True
-
-    while add_another_fg:
-        add_fungible()
-
-        user_response = input("\nAdd another fungible term? (y/n): ")
-
-        while (user_response not in ['y', 'n']):
-            user_response = input("\nI didn't recognize that response. Add another fungible term? (y/n): ")
-
-        if user_response=='y':
-            add_another_fg = True
+        if ccc_valid and fc_valid:
+            print('Valid')
         else:
-            add_another_fg = False
+            print('Invalid')
 
-    print('\nThe fungible element is %s.\n' % fg_name)
+    # check for PV name with 4 elements
+    if (len(pv_name) == 4):
+        fg_taxon = pv_name[1]
+        fg_valid = fungible_is_valid(fg_taxon)
 
-    pv_name = str(fc_name) + ":" + str(fg_name)
+        nn_taxon = pv_name[2]
+        nn_valid = increment_is_valid(nn_taxon)
 
-    print('The PV name is %s.\n' % pv_name)
+        if (fg_valid and not nn_valid and fc_valid):
+            ccc_taxon = pv_name[2]
+            ccc_valid = constituent_component_is_valid(ccc_taxon)
+
+            if ccc_valid:
+                print('Valid')
+
+        elif (not fg_valid and nn_valid and fc_valid):
+            ccc_taxon = pv_name[1]
+            ccc_valid = constituent_component_is_valid(ccc_taxon)
+
+            if ccc_valid:
+                print('Valid')
+
+        else:
+            print('Invalid')
+
+    # # check for PV name with 5 elements
+    # if (len(pv_name) == 5):
+    #     fg_taxon = pv_name[1]
+    #     fg_valid = fungible_is_valid(fg_taxon)
+
+    #     ccc_taxon = pv_name[2]
+    #     ccc_valid = constituent_component_is_valid(ccc_taxon)
+
+    #     nn_taxon = pv_name[3]
+    #     nn_valid = increment_is_valid(nn_taxon)
+
+    #     if fg_valid and ccc_valid and nn_valid and fc_valid:
+    #         print('Valid')
+    #     else:
+    #         print('Invalid')
