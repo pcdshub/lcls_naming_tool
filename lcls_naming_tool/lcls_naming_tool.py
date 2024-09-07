@@ -1,25 +1,49 @@
+#!/usr/bin/env python3
+
 '''
-LCLS Naming Tool
+    LCLS Naming Tool
 
-A tool for checking the form and content (but not meaning) of PV names with
-respect to the LCLS naming convention.
+    A tool for checking the form and content (but not meaning) of PV names with
+    respect to the LCLS naming convention.
 
-A valid PV name is in the format FFFFF:GGG:CCC:NN:XXXX, where GGG and NN are
-optional and can be omitted.
+    A valid PV name is in the format FFFFF:GGG:CCC:NN:XXXX, where GGG and NN are
+    optional and can be omitted.
 
-This script only checks the validity of PV names (not devices).
+    This script only checks the validity of PV names (not devices).
 
-Algorithm:
-    Only PV names (FFFFF:GGG:CCC:NN:XXXX) with 3 to 5 elements are valid because GGG and NN are optional/can be omitted.
-    The first element of a valid PV name is FFFFF. 
-    If there are 3 elements, a valid PV name does not have GGG AND does not have NN. It must have CCC and XXXX (process variable).
-    If there are 4 elements, a valid PV name does not have GGG OR does not have NN. It must have CCC and XXXX.
-    If there are 5 elements, a valid PV name has GGG, NN, CCC, and XXXX.
+    Some naming rules:
+        Only PV names (FFFFF:GGG:CCC:NN:XXXX) with 3 to 5 elements are valid. This
+        is because GGG and NN are optional and can be omitted. 5 is the maximum
+        number of elements allowed.
+
+        The first element of a valid PV name is FFFFF.
+
+        If there are 3 elements, a valid PV name does not have GGG AND does not
+        have NN. It must have CCC and XXXX (process variable).
+
+        If there are 4 elements, a valid PV name does not have GGG OR does not have
+        NN. It must have CCC and XXXX.
+
+        If there are 5 elements, a valid PV name must have GGG, NN, CCC, and XXXX.
+
+    Instructions:
+        Set $ chmod 775 lcls_naming_tool.py to make the file executable.
+
+        To check if a PV name is valid type it in like this $ echo "XCS:DG3:GCC:02:PCTRLSPRBCK" | ./lcls_naming_tool.py
+
+        To check if a list of PV names is valid type it in like this $ cat pvlist.txt | ./lcls_naming_tool.py
 '''
 
 
 import sys
 import json
+
+
+fc_dict = {}
+fg_dict = {}
+ccc_dict = {}
+beam_sources = {'K': '', 'L': ''}
+beam_numbers = {'0': '', '1': '', '2': '', '3': '', '4': '', '5': ''}
 
 
 def functional_component_is_valid(fc_taxon):
@@ -29,8 +53,7 @@ def functional_component_is_valid(fc_taxon):
         fc_source_ltr = str(fc_taxon[3])
         fc_beam_num = str(fc_taxon[4])
     else:
-        print('Invalid')
-        sys.exit()
+        return False
 
     # FFFFF is required
     try:
@@ -39,9 +62,17 @@ def functional_component_is_valid(fc_taxon):
         beam_numbers[fc_beam_num]
 
     except KeyError:
-        print('Invalid')
-        sys.exit()
+        return False
 
+    else:
+        return True
+
+
+def constituent_component_is_valid(ccc_taxon):
+    try:
+        ccc_dict[ccc_taxon]
+    except:
+        return False
     else:
         return True
 
@@ -61,18 +92,6 @@ def fungible_is_valid(fg_taxon):
         return True
 
 
-def constituent_component_is_valid(ccc_taxon):
-    try:
-        ccc_dict[ccc_taxon]  # ccc is required
-
-    except:
-        print('Invalid')
-        sys.exit()
-
-    else:
-        return True
-
-
 def increment_is_valid(nn_taxon):
     # check the increment is an int and has at least 2 digits
     try:
@@ -86,17 +105,16 @@ def increment_is_valid(nn_taxon):
         return True
 
 
-if __name__ == '__main__':
+def main():
 
-    fc_dict = {}
-    fg_dict = {}
-    ccc_dict = {}
-    beam_sources = {'K': '', 'L': ''}
-    beam_numbers = {'0': '', '1': '', '2': '', '3': '', '4': '', '5': ''}
     fc_valid = True
     fg_valid = True
     ccc_valid = True
     nn_valid = True
+
+    global fc_dict
+    global fg_dict
+    global ccc_dict
 
     # Read the json files containing all the taxons
     with open('functional_component_taxon.json') as fc_file:
@@ -108,77 +126,95 @@ if __name__ == '__main__':
     with open('ccc_taxon.json') as ccc_file:
         ccc_dict = json.load(ccc_file)
 
-    user_input = input('Enter a PV name: ')
+    # Check if user entered a file name or PV name (text)
+    if not sys.stdin.isatty():
+        input_stream = sys.stdin
+    else:
+        try:
+            input_filename = sys.argv[1]
+        except IndexError:
+            message = 'Enter the name of a file.'
+            raise IndexError(message)
+        else:
+            input_stream = open(input_filename, newline='')
 
-    # Length of PV or device name cannot exceed 60 chars and cannot have decimals.
-    try:
-        assert '.' not in user_input
-        assert (len(user_input) <= 60)
+    for line in input_stream:
+        try:
+            assert '.' not in line
+            assert (len(line) <= 60)
 
-    except AssertionError:
-        print('Invalid')
-        sys.exit()
+        except AssertionError:
+            print('Illegal character in PV Name. Invalid')
+            return
 
-    pv_name = user_input.split(':')
+        pv_name = line.split(':')
 
-    # Check the length of the PV name
-    if (len(pv_name) < 3) or (len(pv_name) > 5):
-        print('Invalid')
-        sys.exit()
+        # Check the length of the PV name is valid
+        if (len(pv_name) < 3) or (len(pv_name) > 5):
+            print('Length of the PV Name is Invalid')
+            return
 
-    # parse the functional component (FFFFF)
-    fc_taxon = list(pv_name[0])
-    fc_valid = functional_component_is_valid(fc_taxon)
+        # parse the functional component (FFFFF)
+        fc_taxon = list(pv_name[0])
+        fc_valid = functional_component_is_valid(fc_taxon)
 
-    # check for PV name with 3 elements
-    if (len(pv_name) == 3):
-        ccc_taxon = pv_name[1]
-        ccc_valid = constituent_component_is_valid(ccc_taxon)
+        if fc_valid:
 
-        if ccc_valid and fc_valid:
-            print('Valid')
+            # check for PV name with 3 elements
+            if (len(pv_name) == 3):
+                ccc_taxon = pv_name[1]
+                ccc_valid = constituent_component_is_valid(ccc_taxon)
+
+                if ccc_valid:
+                    print('Valid')
+                else:
+                    print('Invalid')
+
+            # check for PV name with 4 elements
+            if (len(pv_name) == 4):
+                fg_taxon = pv_name[1]
+                fg_valid = fungible_is_valid(fg_taxon)
+
+                nn_taxon = pv_name[2]
+                nn_valid = increment_is_valid(nn_taxon)
+
+                if (fg_valid and not nn_valid):
+                    ccc_taxon = pv_name[2]
+                    ccc_valid = constituent_component_is_valid(ccc_taxon)
+
+                    if ccc_valid:
+                        print('Valid')
+                    else:
+                        print('Invalid')
+
+                if (not fg_valid and nn_valid):
+                    ccc_taxon = pv_name[1]
+                    ccc_valid = constituent_component_is_valid(ccc_taxon)
+
+                    if ccc_valid:
+                        print('Valid')
+                    else:
+                        print('Invalid')
+
+            # check for PV name with 5 elements
+            if (len(pv_name) == 5):
+                fg_taxon = pv_name[1]
+                fg_valid = fungible_is_valid(fg_taxon)
+
+                ccc_taxon = pv_name[2]
+                ccc_valid = constituent_component_is_valid(ccc_taxon)
+
+                nn_taxon = pv_name[3]
+                nn_valid = increment_is_valid(nn_taxon)
+
+                if fg_valid and ccc_valid and nn_valid and fc_valid:
+                    print('Valid')
+                else:
+                    print('Invalid')
+
         else:
             print('Invalid')
-            sys.exit()
 
-    # check for PV name with 4 elements
-    if (len(pv_name) == 4):
-        fg_taxon = pv_name[1]
-        fg_valid = fungible_is_valid(fg_taxon)
 
-        nn_taxon = pv_name[2]
-        nn_valid = increment_is_valid(nn_taxon)
-
-        if (fg_valid and not nn_valid and fc_valid):
-            ccc_taxon = pv_name[2]
-            ccc_valid = constituent_component_is_valid(ccc_taxon)
-
-            if ccc_valid:
-                print('Valid')
-            else:
-                print('Invalid')
-
-        if (not fg_valid and nn_valid and fc_valid):
-            ccc_taxon = pv_name[1]
-            ccc_valid = constituent_component_is_valid(ccc_taxon)
-
-            if ccc_valid:
-                print('Valid')
-            else:
-                print('Invalid')
-
-    # check for PV name with 5 elements
-    if (len(pv_name) == 5):
-        fg_taxon = pv_name[1]
-        fg_valid = fungible_is_valid(fg_taxon)
-
-        ccc_taxon = pv_name[2]
-        ccc_valid = constituent_component_is_valid(ccc_taxon)
-
-        nn_taxon = pv_name[3]
-        nn_valid = increment_is_valid(nn_taxon)
-
-        if fg_valid and ccc_valid and nn_valid and fc_valid:
-            print('Valid')
-        else:
-            print('Invalid')
+if __name__ == '__main__':
+    main()
