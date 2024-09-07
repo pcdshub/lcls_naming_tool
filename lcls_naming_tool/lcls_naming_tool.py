@@ -133,7 +133,7 @@ def main():
         try:
             input_filename = sys.argv[1]
         except IndexError:
-            message = 'Enter the name of a file.'
+            message = 'File name not entered.'
             raise IndexError(message)
         else:
             input_stream = open(input_filename, newline='')
@@ -144,14 +144,14 @@ def main():
             assert (len(line) <= 60)
 
         except AssertionError:
-            print('Illegal character in PV Name. Invalid')
+            print('Invalid')
             return
 
         pv_name = line.split(':')
 
         # Check the length of the PV name is valid
         if (len(pv_name) < 3) or (len(pv_name) > 5):
-            print('Length of the PV Name is Invalid')
+            print('Invalid')
             return
 
         # parse the functional component (FFFFF)
