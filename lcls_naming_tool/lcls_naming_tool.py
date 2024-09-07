@@ -126,7 +126,7 @@ def main():
     with open('ccc_taxon.json') as ccc_file:
         ccc_dict = json.load(ccc_file)
 
-    # Check if user entered a file name or PV name (text)
+    # Check if user entered a file name or PV name (a string)
     if not sys.stdin.isatty():
         input_stream = sys.stdin
     else:
