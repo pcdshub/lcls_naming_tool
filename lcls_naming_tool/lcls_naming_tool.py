@@ -10,28 +10,6 @@
     optional and can be omitted.
 
     This script only checks the validity of PV names (not devices).
-
-    Some naming rules:
-        Only PV names (FFFFF:GGG:CCC:NN:XXXX) with 3 to 5 elements are valid. This
-        is because GGG and NN are optional and can be omitted. 5 is the maximum
-        number of elements allowed.
-
-        The first element of a valid PV name is FFFFF.
-
-        If there are 3 elements, a valid PV name does not have GGG AND does not
-        have NN. It must have CCC and XXXX (process variable).
-
-        If there are 4 elements, a valid PV name does not have GGG OR does not have
-        NN. It must have CCC and XXXX.
-
-        If there are 5 elements, a valid PV name must have GGG, NN, CCC, and XXXX.
-
-    Instructions:
-        Set $ chmod 775 lcls_naming_tool.py to make the file executable.
-
-        To check if a PV name is valid type it in like this $ echo "XCS:DG3:GCC:02:PCTRLSPRBCK" | ./lcls_naming_tool.py
-
-        To check if a list of PV names is valid type it in like this $ cat pvlist.txt | ./lcls_naming_tool.py
 '''
 
 
