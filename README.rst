@@ -13,7 +13,9 @@ lcls_naming_tool
 
 A tool that checks the form and content of names with respect to the LCLS naming convention.
 
-Instructions:
+Instructions
+------------
+
 1. Set $ chmod 775 lcls_naming_tool.py to make the file executable.
 
 2. To check if a PV name is valid pipe in the PV name like so 
