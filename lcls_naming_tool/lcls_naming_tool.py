@@ -117,7 +117,7 @@ def increment_is_valid(nn_taxon):
 
 def process_variable_is_valid(cspv_taxon):
     # check control system process variable starts with a letter
-    match = re.search('[a-zA-z].+', cspv_taxon)
+    match = re.search('^[a-zA-z]', cspv_taxon)
     if match:
         return True
     else:
@@ -141,14 +141,14 @@ def validate(user_input):
         return False
 
     # parse the functional component (FFFFF)
-    fc_taxon = list(pv_name[0])
+    fc_taxon = list(pv_name[0].strip())
     fc_valid = functional_component_is_valid(fc_taxon)
 
     if fc_valid:
 
         # check for PV name with 3 elements (FFFFF:CCC:XXXX)
         if (len(pv_name) == 3):
-            ccc_taxon = pv_name[1]
+            ccc_taxon = pv_name[1].strip()
             ccc_valid = constituent_component_is_valid(ccc_taxon)
 
             if ccc_valid:
@@ -160,16 +160,16 @@ def validate(user_input):
 
         # Check for PV name with 4 elements (FFFFF:GGG:CCC:XXXX or FFFFF:CCC:NN:XXXX).
         if (len(pv_name) == 4):
-            fg_taxon = pv_name[1]
+            fg_taxon = pv_name[1].strip()
             fg_valid = fungible_is_valid(fg_taxon)
 
             if fg_valid:
                 # validate for FFFFF:GGG:CCC:XXXX
-                ccc_taxon = pv_name[2]
+                ccc_taxon = pv_name[2].strip()
                 ccc_valid = constituent_component_is_valid(ccc_taxon)
 
-                cspv_taxon = pv_name[3]
-                cspv_valid = constituent_component_is_valid(cspv_taxon)
+                cspv_taxon = pv_name[3].strip()
+                cspv_valid = process_variable_is_valid(cspv_taxon)
                               
                 if ccc_valid and cspv_valid:
                     print('Valid')
@@ -179,10 +179,10 @@ def validate(user_input):
                     return False
             else:
                 # validate for FFFFF:CCC:NN:XXXX
-                ccc_taxon = pv_name[1]
+                ccc_taxon = pv_name[1].strip()
                 ccc_valid = constituent_component_is_valid(ccc_taxon)
 
-                nn_taxon = pv_name[2]
+                nn_taxon = pv_name[2].strip()
                 nn_valid = increment_is_valid(nn_taxon)
 
                 if ccc_valid and nn_valid:
@@ -194,13 +194,13 @@ def validate(user_input):
 
         # check for PV name with 5 elements (FFFFF:GGG:CCC:NN:XXXX)
         if (len(pv_name) == 5):
-            fg_taxon = pv_name[1]
+            fg_taxon = pv_name[1].strip()
             fg_valid = fungible_is_valid(fg_taxon)
 
-            ccc_taxon = pv_name[2]
+            ccc_taxon = pv_name[2].strip()
             ccc_valid = constituent_component_is_valid(ccc_taxon)
 
-            nn_taxon = pv_name[3]
+            nn_taxon = pv_name[3].strip()
             nn_valid = increment_is_valid(nn_taxon)
 
             if fg_valid and ccc_valid and nn_valid and fc_valid:
