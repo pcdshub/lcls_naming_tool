@@ -37,6 +37,22 @@ beam_sources = {'K': '', 'L': ''}
 beam_numbers = {'0': '', '1': '', '2': '', '3': '', '4': '', '5': ''}
 
 
+def load_taxons():
+    global fc_dict
+    global fg_dict
+    global ccc_dict
+
+    # Read the json files containing all the taxons
+    with open('functional_component_taxon.json') as fc_file:
+        fc_dict = json.load(fc_file)
+
+    with open('fungible_element_taxon.json') as fg_file:
+        fg_dict = json.load(fg_file)
+
+    with open('ccc_taxon.json') as ccc_file:
+        ccc_dict = json.load(ccc_file)
+
+
 def functional_component_is_valid(fc_taxon):
     
     # check length of the functional component
@@ -131,15 +147,13 @@ def validate(user_input):
                 print('Invalid')
                 return False
 
-        # check for PV name with 4 elements (FFFFF:GGG:CCC:XXXX or FFFFF:CCC:NN:XXXX)
+        # Check for PV name with 4 elements (FFFFF:GGG:CCC:XXXX or FFFFF:CCC:NN:XXXX).
         if (len(pv_name) == 4):
             fg_taxon = pv_name[1]
             fg_valid = fungible_is_valid(fg_taxon)
 
-            nn_taxon = pv_name[2]
-            nn_valid = increment_is_valid(nn_taxon)
-
-            if (fg_valid and not nn_valid):  # GGG exists, NN does not exist
+            if fg_valid:
+                # if GGG exist, then next element must be CCC
                 ccc_taxon = pv_name[2]
                 ccc_valid = constituent_component_is_valid(ccc_taxon)
 
@@ -149,8 +163,8 @@ def validate(user_input):
                 else:
                     print('Invalid')
                     return False
-
-            if (not fg_valid and nn_valid):  # GGG does not exist, NN exists
+            else:
+                # if GGG does not exist, then current element must be CCC
                 ccc_taxon = pv_name[1]
                 ccc_valid = constituent_component_is_valid(ccc_taxon)
 
@@ -160,10 +174,6 @@ def validate(user_input):
                 else:
                     print('Invalid')
                     return False
-                
-            if (fg_valid and nn_valid):  # GGG and NN exist, but CCC does not exist
-                print('Invalid')
-                return False
 
         # check for PV name with 5 elements (FFFFF:GGG:CCC:NN:XXXX)
         if (len(pv_name) == 5):
@@ -190,19 +200,7 @@ def validate(user_input):
 
 def main():
 
-    global fc_dict
-    global fg_dict
-    global ccc_dict
-
-    # Read the json files containing all the taxons
-    with open('functional_component_taxon.json') as fc_file:
-        fc_dict = json.load(fc_file)
-
-    with open('fungible_element_taxon.json') as fg_file:
-        fg_dict = json.load(fg_file)
-
-    with open('ccc_taxon.json') as ccc_file:
-        ccc_dict = json.load(ccc_file)
+    load_taxons()
 
     # Check if user entered a file name or PV name (a string)
     if not sys.stdin.isatty():
@@ -220,4 +218,5 @@ def main():
         validate(line)
 
 
-main()
+if __name__ == "__main__":
+    main()
