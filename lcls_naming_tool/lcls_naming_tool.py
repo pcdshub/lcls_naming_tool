@@ -24,12 +24,14 @@
 
 import sys
 import json
+import re
 
 
 fc_valid = True
 fg_valid = True
 ccc_valid = True
 nn_valid = True
+cspv_valid = True
 fc_dict = {}
 fg_dict = {}
 ccc_dict = {}
@@ -111,6 +113,15 @@ def increment_is_valid(nn_taxon):
 
     else:
         return True
+    
+
+def process_variable_is_valid(cspv_taxon):
+    # check control system process variable starts with a letter
+    match = re.search('[a-zA-z].+', cspv_taxon)
+    if match:
+        return True
+    else:
+        return False
 
 
 def validate(user_input):
@@ -153,22 +164,28 @@ def validate(user_input):
             fg_valid = fungible_is_valid(fg_taxon)
 
             if fg_valid:
-                # if GGG exist, then next element must be CCC
+                # validate for FFFFF:GGG:CCC:XXXX
                 ccc_taxon = pv_name[2]
                 ccc_valid = constituent_component_is_valid(ccc_taxon)
 
-                if ccc_valid:
+                cspv_taxon = pv_name[3]
+                cspv_valid = constituent_component_is_valid(cspv_taxon)
+                              
+                if ccc_valid and cspv_valid:
                     print('Valid')
                     return True
                 else:
                     print('Invalid')
                     return False
             else:
-                # if GGG does not exist, then current element must be CCC
+                # validate for FFFFF:CCC:NN:XXXX
                 ccc_taxon = pv_name[1]
                 ccc_valid = constituent_component_is_valid(ccc_taxon)
 
-                if ccc_valid:
+                nn_taxon = pv_name[2]
+                nn_valid = increment_is_valid(nn_taxon)
+
+                if ccc_valid and nn_valid:
                     print('Valid')
                     return True
                 else:
