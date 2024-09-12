@@ -26,9 +26,11 @@ To run the Python script:
 
 To run the Flask web server:
 
-1. Copy all contents of /lcls_naming_tool/web/ folder to host directory. 
+1. Copy all contents of /lcls_naming_tool/web/ folder to host directory. Several files are symlinks and may need to be manually copied into the web folder.
 
-2. Pip install flask and type ``export FLASK_APP=app`` at the command line. Type ``flask run`` to run the web app.
+2. Pip install flask. 
+
+3. From inside the /web folder type ``export FLASK_APP=app`` at the command line. Type ``flask run`` to run the web app.
 
 
 Requirements
