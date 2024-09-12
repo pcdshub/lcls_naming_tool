@@ -47,8 +47,8 @@ Requirements
 ------------
 
 * Python 3.9+
-* Flask
-* Gunicorn
+* Flask 2.2.5
+* Gunicorn 23.0.0
 
 Installation
 ------------
