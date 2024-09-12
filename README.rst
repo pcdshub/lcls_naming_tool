@@ -24,13 +24,18 @@ To run the Python script:
 
 3. To check if a list of PV names is valid pipe in the file name like so ``$ cat pvlist.txt | ./lcls_naming_tool.py`` (PV names should be separated by newline characters.)
 
-To run the Flask web server:
+To run Flask and Gunicorn web server:
 
 1. Copy all contents of /lcls_naming_tool/web/ folder to host directory. Several files are symlinks and may need to be manually copied into the web folder.
 
-2. Pip install flask. 
+2. To start the web app navigate to the /web folder and type:
+``pip3 install --upgrade pip``
+``pip3 install -r requirements.txt``
+``export FLASK_APP=app``
+``flask --app app run``
+``gunicorn --config gunicorn_config.py app:app`` 
 
-3. From inside the /web folder type ``export FLASK_APP=app`` at the command line. Type ``flask run`` to run the web app.
+5. If hosting locally the webiste will be at http://127.0.0.1:8080/
 
 
 Requirements
