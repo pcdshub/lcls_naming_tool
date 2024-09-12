@@ -133,7 +133,12 @@ def validate(user_input):
         print('Invalid')
         return False
 
-    pv_name = user_input.split(':')
+    pv_name = [x.strip() for x in user_input.split(':')]
+
+    for element in pv_name:
+        if not re.match('^[a-zA-Z0-9]+', element):
+            print('Invalid')
+            return False
 
     # Check the length of the PV name is valid
     if (len(pv_name) < 3) or (len(pv_name) > 5):
