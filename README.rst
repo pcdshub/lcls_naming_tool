@@ -40,7 +40,7 @@ To run Flask and Gunicorn web server:
 
 ``gunicorn --config gunicorn_config.py app:app`` 
 
-3. If hosting locally the webiste will be at http://127.0.0.1:8080/
+3. If hosting locally the website will be at http://127.0.0.1:8080/
 
 
 Requirements
