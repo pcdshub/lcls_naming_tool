@@ -26,14 +26,15 @@ To run the Python script:
 
 To run the Flask web server:
 
-1. Type ``export FLASK_APP=app`` at the command line.
+1. Copy all contents of /web folder to host directory. 
 
-2. Type ``flask run`` to launch the website.
+2. Pip install flask and type ``export FLASK_APP=app`` at the command line. Type ``flask run`` to run the web app.
 
 
 Requirements
 ------------
 
+* Flask
 * Python 3.9+
 
 Installation
