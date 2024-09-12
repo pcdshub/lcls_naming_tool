@@ -17,12 +17,17 @@ Instructions
 ------------
 
 To run the Python script:
+
 1. Set ``$ chmod 775 lcls_naming_tool.py`` to make the file executable.
+
 2. To check if a PV name is valid pipe in the PV name like so ``$ echo "XCS:DG3:GCC:02:PCTRLSPRBCK" | ./lcls_naming_tool.py``
+
 3. To check if a list of PV names is valid pipe in the file name like so ``$ cat pvlist.txt | ./lcls_naming_tool.py`` (PV names should be separated by newline characters.)
 
 To run the Flask web server:
+
 1. Type ``export FLASK_APP=app`` at the command line.
+
 2. Type ``flask run`` to launch the website.
 
 
