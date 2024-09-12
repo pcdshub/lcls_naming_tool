@@ -46,8 +46,9 @@ To run Flask and Gunicorn web server:
 Requirements
 ------------
 
-* Flask
 * Python 3.9+
+* Flask
+* Gunicorn
 
 Installation
 ------------
