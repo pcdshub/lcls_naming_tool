@@ -10,18 +10,16 @@ def index():
     if request.method == 'POST':
         pv_name = str(request.form['pv_name'])
 
-        flash(pv_name)
+        flash(pv_name, 'no_bkgd_color')
 
         load_taxons()
 
         is_valid = validate(pv_name)
 
         if is_valid:
-            flash('Valid')
+            flash('Valid', 'valid')
         else:
-            flash('Invalid')
-            
-            
-    # return redirect(url_for('index'))
+            flash('Invalid', 'invalid')
+            return redirect(url_for('index'))
 
     return render_template('index.html')

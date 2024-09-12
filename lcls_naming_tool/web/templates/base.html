@@ -20,8 +20,7 @@
         .alert {
             padding: 20px;
             margin: 0 0 20px;
-            color: #970020;
-            background-color: #ffd5de;
+            color: #000;
         }
 
         .content {
@@ -30,7 +29,17 @@
             width: 25%;
             padding: 0;
         }
-
+        .no_bkgd_color {
+            background-color: #fff;
+        }
+        .valid {
+            background-color: green;
+            color: #fff;
+        }
+        .invalid {
+            background-color: red;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -39,9 +48,13 @@
     </nav>
     <hr>
     <div class="content">
-        {% for message in get_flashed_messages() %}
-            <div class="alert">{{ message }}</div>
-        {% endfor %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert {{ category }}"> {{ message|capitalize }} </div>
+            {% endfor %}
+            {% endif %}
+        {% endwith %}
         {% block content %} {% endblock %}
     </div>
 </body>

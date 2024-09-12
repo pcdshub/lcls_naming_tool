@@ -6,8 +6,8 @@
         <br><br>
         <input type="text" name="pv_name"
                placeholder=""
-               value="{{ request.form['pv_name'] }}"></input>
-        <br><br>
+               value="{{ request.form['pv_name'] }}" style="width: 250px"></input>
         <button type="submit">Submit</button>
+        <p><a href="{{ url_for('index') }}">Check another PV name</a></p>
     </form>
 {% endblock %}
