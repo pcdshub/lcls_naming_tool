@@ -11,18 +11,16 @@ lcls_naming_tool
 
 `Documentation <https://pcdshub.github.io/lcls_naming_tool/>`_
 
-A tool that checks the form and content of names with respect to the LCLS naming convention.
+A tool that checks the form and content of PV and device names with respect to the LCLS naming convention.
 
 Instructions
 ------------
 
 To run the Python script:
 
-1. Set ``$ chmod 775 lcls_naming_tool.py`` to make the file executable.
+1. To check if a PV or device name is valid pipe in the name like so ``$ echo "MR2K4:KBO:PIP:01:PUMPSIZE" | ./lcls_naming_tool.py``
 
-2. To check if a PV name is valid pipe in the PV name like so ``$ echo "MR2K4:KBO:PIP:01:PUMPSIZE" | ./lcls_naming_tool.py``
-
-3. To check if a list of PV names is valid pipe in the file name like so ``$ cat pvlist.txt | ./lcls_naming_tool.py`` (PV names should be separated by newline characters.)
+2. To check if a list of names is valid pipe in the file name like so ``$ cat pvlist.txt | ./lcls_naming_tool.py`` (names should be separated by newline characters.)
 
 To run Flask and Gunicorn web server:
 
@@ -38,9 +36,9 @@ To run Flask and Gunicorn web server:
 
 ``flask --app app run``
 
-``gunicorn --config gunicorn_config.py app:app`` 
+``gunicorn --config gunicorn_config.py app:app``
 
-3. If hosting locally the website will be at http://127.0.0.1:8080/
+If hosting locally the website will be at http://127.0.0.1:8080/
 
 
 Requirements
