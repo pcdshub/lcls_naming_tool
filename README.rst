@@ -32,7 +32,7 @@ To run Flask and Gunicorn web server:
 
 ``pip3 install -r requirements.txt``
 
-``export FLASK_APP=app``::
+``export FLASK_APP=app``
 
 ``flask --app app run``
 
