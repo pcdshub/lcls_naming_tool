@@ -135,7 +135,7 @@ def validate(user_input):
     pv_name = [x.strip() for x in user_input.split(':')]
 
     for element in pv_name:
-        if not re.match('^[a-zA-Z0-9]+', element):
+        if not is_alphanumeric(element):
             print('Invalid')
             return False
 
@@ -148,10 +148,11 @@ def validate(user_input):
     fc_taxon = list(pv_name[0])
     fc_valid = functional_component_is_valid(fc_taxon)
 
+    second_element = pv_name[1]
+
     if fc_valid:
         # Check for PV name with 2 elements (FFFFF:CCC)
         if (len(pv_name)==2):
-            second_element = pv_name[1]
             ccc_valid = constituent_component_is_valid(second_element)
 
             if ccc_valid:
@@ -161,7 +162,6 @@ def validate(user_input):
                 print('Invalid')
                 return False
 
-        second_element = pv_name[1]
         third_element = pv_name[2]
 
         # check for PV name with 3 elements (FFFFF:GGG:CCC, FFFFF:CCC:NN, FFFFF:CCC:XXXX)
