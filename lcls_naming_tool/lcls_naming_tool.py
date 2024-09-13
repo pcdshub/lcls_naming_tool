@@ -58,9 +58,9 @@ def functional_component_is_valid(fc_taxon):
     
     # check length of the functional component
     if (len(fc_taxon) == 5):
-        fc_prefix = str(fc_taxon[0] + fc_taxon[1])
-        fc_source_ltr = str(fc_taxon[3])
-        fc_beam_num = str(fc_taxon[4])
+        fc_prefix = fc_taxon[0] + fc_taxon[1]
+        fc_source_ltr = fc_taxon[3]
+        fc_beam_num = fc_taxon[4]
     else:
         return False
 
@@ -140,7 +140,7 @@ def validate(user_input):
             return False
 
     # Check the length of the PV name is valid
-    if (len(pv_name) < 3) or (len(pv_name) > 5):
+    if (len(pv_name) < 2) or (len(pv_name) > 5):
         print('Invalid')
         return False
 
