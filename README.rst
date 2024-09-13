@@ -28,15 +28,15 @@ To run Flask and Gunicorn web server:
 
 2. To start the web app navigate to the /web folder and type:
 
-        ``pip3 install --upgrade pip``
+``pip3 install --upgrade pip``
 
-        ``pip3 install -r requirements.txt``
+``pip3 install -r requirements.txt``
 
-        ``export FLASK_APP=app``
+``export FLASK_APP=app``
 
-        ``flask --app app run``
+``flask --app app run``
 
-        ``gunicorn --config gunicorn_config.py app:app``
+``gunicorn --config gunicorn_config.py app:app``
 
 If hosting locally the website will be at http://127.0.0.1:8080/
 
