@@ -28,10 +28,6 @@ To run Flask and Gunicorn web server:
 
 2. To start the web app navigate to the /web folder and type:
 
-``pip3 install --upgrade pip``
-
-``pip3 install -r requirements.txt``
-
 ``export FLASK_APP=app``
 
 ``flask --app app run``
@@ -51,7 +47,12 @@ Requirements
 Installation
 ------------
 
-::
+Navigate to the top level folder and type:
+
+``pip3 install --upgrade pip``
+
+``pip3 install -r requirements.txt``
+
 
 Running the Tests
 -----------------
