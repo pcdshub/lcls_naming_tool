@@ -8,9 +8,9 @@ app.config['SECRET_KEY'] = 'your secret key'
 @app.route('/', methods=('GET', 'POST'))
 def index():
     if request.method == 'POST':
-        pv_name = str(request.form['pv_name'])
+        pv_name = str(request.form['pv_name']).upper()
 
-        flash(pv_name, 'no_bkgd_color')
+        flash(pv_name, 'pv_name')
 
         load_taxons()
 
