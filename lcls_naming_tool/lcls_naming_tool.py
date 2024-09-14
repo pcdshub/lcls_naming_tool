@@ -44,13 +44,13 @@ def load_taxons():
     global ccc_dict
 
     # Read the json files containing all the taxons
-    with open('functional_component_taxon.json') as fc_file:
+    with open('taxons/functional_component_taxon.json') as fc_file:
         fc_dict = json.load(fc_file)
 
-    with open('fungible_element_taxon.json') as fg_file:
+    with open('taxons/fungible_element_taxon.json') as fg_file:
         fg_dict = json.load(fg_file)
 
-    with open('ccc_taxon.json') as ccc_file:
+    with open('taxons/ccc_taxon.json') as ccc_file:
         ccc_dict = json.load(ccc_file)
 
 
