@@ -139,19 +139,19 @@ def validate(user_input):
             print('Invalid')
             return False
 
-    # Check the length of the PV name is valid
+    # Check the length of the name
     if (len(pv_name) < 2) or (len(pv_name) > 5):
         print('Invalid')
         return False
 
-    # parse the functional component (FFFFF)
+    # Validate the functional component (FFFFF)
     fc_taxon = list(pv_name[0])
     fc_valid = functional_component_is_valid(fc_taxon)
 
     second_element = pv_name[1]
 
     if fc_valid:
-        # Check for PV name with 2 elements (FFFFF:CCC)
+        # Check for name with 2 elements (FFFFF:CCC)
         if (len(pv_name)==2):
             ccc_valid = constituent_component_is_valid(second_element)
 
@@ -164,7 +164,7 @@ def validate(user_input):
 
         third_element = pv_name[2]
 
-        # check for PV name with 3 elements (FFFFF:GGG:CCC, FFFFF:CCC:NN, FFFFF:CCC:XXXX)
+        # check for name with 3 elements (FFFFF:GGG:CCC, FFFFF:CCC:NN, FFFFF:CCC:XXXX)
         if (len(pv_name) == 3):
             fg_valid = fungible_is_valid(second_element)
             ccc_valid = constituent_component_is_valid(second_element)
@@ -191,7 +191,7 @@ def validate(user_input):
 
         fourth_element = pv_name[3]
 
-        # Check for PV name with 4 elements (FFFFF:GGG:CCC:NN, FFFFF:GGG:CCC:XXXX, FFFFF:CCC:NN:XXXX)
+        # Check for name with 4 elements (FFFFF:GGG:CCC:NN, FFFFF:GGG:CCC:XXXX, FFFFF:CCC:NN:XXXX)
         if (len(pv_name) == 4):
             fg_valid = fungible_is_valid(second_element)
             ccc_valid = constituent_component_is_valid(second_element)
@@ -222,7 +222,7 @@ def validate(user_input):
                 print('Invalid')
                 return False
 
-        # check for PV name with 5 elements (FFFFF:GGG:CCC:NN:XXXX)
+        # check for name with 5 elements (FFFFF:GGG:CCC:NN:XXXX)
         if (len(pv_name) == 5):
             fg_taxon = pv_name[1]
             fg_valid = fungible_is_valid(fg_taxon)
