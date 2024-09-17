@@ -25,6 +25,7 @@
     This script only checks the validity of PV and device names.
 '''
 
+import argparse
 import subprocess
 import sys
 import json
@@ -38,14 +39,24 @@ beam_sources = {'K': '', 'L': ''}
 beam_numbers = {'0': '', '1': '', '2': '', '3': '', '4': '', '5': ''}
 
 
-def display_version():
+def get_version():
     result = subprocess.run(
         ['git', 'describe', '--tags'], 
         capture_output=True, 
         text=True
     )
-    return str(result.stdout).strip()
+    return (str(result.stdout).strip().split('-'))[0]
+
+def display_version():
+    version = get_version()
+
+    parser = argparse.ArgumentParser(description="Current version of LCLS Naming Tool")
+    parser.add_argument('-v', '--version', action='store_true')
+    args = parser.parse_args()
     
+    if args.version:
+        print(version)
+
 
 def load_taxons():
     global fc_dict
@@ -258,6 +269,8 @@ def validate(user_input):
 
 
 def main():
+
+    display_version()
 
     load_taxons()
 
