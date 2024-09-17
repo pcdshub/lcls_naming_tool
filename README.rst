@@ -44,6 +44,7 @@ Requirements
 * Flask 2.2.5
 * Gunicorn 23.0.0
 
+
 Installation
 ------------
 
@@ -52,6 +53,8 @@ Navigate to the top level folder and type:
 ``pip3 install --upgrade pip``
 
 ``pip3 install -r requirements.txt``
+
+This app is versioned with git tags. The version is displayed in the web app.
 
 
 Running the Tests
