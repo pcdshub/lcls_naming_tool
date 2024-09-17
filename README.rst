@@ -22,6 +22,8 @@ To run the Python script:
 
 2. To check if a list of names is valid pipe in the file name like so ``$ cat pvlist.txt | ./lcls_naming_tool.py`` (names should be separated by newline characters.)
 
+3. To view the current version add ``-v`` or ``--version`` like so ``$ echo "MR2K4:KBO:PIP:01:PUMPSIZE" | ./lcls_naming_tool.py -v``
+
 To run Flask and Gunicorn web server:
 
 1. Copy all contents of /lcls_naming_tool/web/ folder to host directory. Several files are symlinks and may need to be manually copied into the web folder for the web app to work.
@@ -53,8 +55,6 @@ Navigate to the top level folder and type:
 ``pip3 install --upgrade pip``
 
 ``pip3 install -r requirements.txt``
-
-This app is versioned with git tags. The version is displayed in the web app.
 
 
 Running the Tests
