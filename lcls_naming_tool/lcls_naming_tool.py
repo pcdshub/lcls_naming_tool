@@ -25,7 +25,7 @@
     This script only checks the validity of PV and device names.
 '''
 
-
+import subprocess
 import sys
 import json
 import re
@@ -37,6 +37,15 @@ ccc_dict = {}
 beam_sources = {'K': '', 'L': ''}
 beam_numbers = {'0': '', '1': '', '2': '', '3': '', '4': '', '5': ''}
 
+
+def display_version():
+    result = subprocess.run(
+        ['git', 'describe', '--tags'], 
+        capture_output=True, 
+        text=True
+    )
+    return str(result.stdout).strip()
+    
 
 def load_taxons():
     global fc_dict
