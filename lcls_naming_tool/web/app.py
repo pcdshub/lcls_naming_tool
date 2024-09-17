@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, url_for, flash, redirect
-from lcls_naming_tool import display_version, load_taxons, validate
+from lcls_naming_tool import get_version, load_taxons, validate
 
 
 app = Flask(__name__)
@@ -8,8 +8,7 @@ app.config['SECRET_KEY'] = 'your secret key'
 @app.route('/', methods=('GET', 'POST'))
 def index():
 
-    version = display_version().split('-')
-    version = version[0]
+    version = get_version()
 
     if request.method == 'POST':
         pv_name = str(request.form['pv_name']).upper()
