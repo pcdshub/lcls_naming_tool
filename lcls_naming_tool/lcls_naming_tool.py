@@ -99,10 +99,10 @@ def functional_component_is_valid(fc_taxon):
 
 def fungible_is_valid(fg_taxon):
     try:
-        fg_components = fg_taxon.replace(
-            '_', ' ').replace(':', ' ').split()
+        fg_elements = fg_taxon.replace(
+            '_', ' ').split()
 
-        for name in fg_components:
+        for name in fg_elements:
             fg_dict[name]
 
     except KeyError:
