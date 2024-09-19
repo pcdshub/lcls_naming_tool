@@ -3,7 +3,7 @@
 
 export ACCESS_LOG_FORMAT='%(h)s %(l)s %({REMOTE_USER}i)s %(t)s "%(r)s" "%(q)s" %(s)s %(b)s %(D)s'
 
-source pcds_conda  # install gunicorn in pcds_conda
+source /reg/g/pcds/engineering_tools/latest-released/scripts/pcds_conda
 
 cd lcls_naming_tool/web
 
