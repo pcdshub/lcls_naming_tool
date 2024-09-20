@@ -28,6 +28,5 @@ def index():
             flash('Valid', 'valid')
         else:
             flash('Invalid', 'invalid')
-            return redirect(url_for('index'))
 
-    return render_template('index.html', version=version)
+    return render_template('./index.html', version=version)
