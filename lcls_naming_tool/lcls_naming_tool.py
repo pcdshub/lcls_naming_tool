@@ -27,6 +27,7 @@
 
 import argparse
 import subprocess
+import os
 import sys
 import json
 import re
@@ -63,14 +64,23 @@ def load_taxons():
     global fg_dict
     global ccc_dict
 
+    script_dir = os.path.dirname(__file__)
+    fc_path = 'taxons/functional_component_taxon.json'
+    fg_path = 'taxons/fungible_element_taxon.json'
+    ccc_path = 'taxons/ccc_taxon.json'
+
+    fc_abs_path = os.path.join(script_dir, fc_path)
+    fg_abs_path = os.path.join(script_dir, fg_path)
+    ccc_abs_path = os.path.join(script_dir, ccc_path)
+
     # Read the json files containing all the taxons
-    with open('taxons/functional_component_taxon.json') as fc_file:
+    with open(fc_abs_path) as fc_file:
         fc_dict = json.load(fc_file)
 
-    with open('taxons/fungible_element_taxon.json') as fg_file:
+    with open(fg_abs_path) as fg_file:
         fg_dict = json.load(fg_file)
 
-    with open('taxons/ccc_taxon.json') as ccc_file:
+    with open(ccc_abs_path) as ccc_file:
         ccc_dict = json.load(ccc_file)
 
 
@@ -151,6 +161,8 @@ def validate(user_input):
     except AssertionError:
         print('Invalid')
         return False
+
+    user_input = user_input.upper()
 
     pv_name = [x.strip() for x in user_input.split(':')]
 
