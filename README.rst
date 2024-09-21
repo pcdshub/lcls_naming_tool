@@ -40,19 +40,14 @@ Website is hosted at https://psdm.slac.stanford.edu/nmsvctest/
 Requirements
 ------------
 
+* PCDS conda
 * Python 3.9+
-* Flask 2.2.5
-* Gunicorn 23.0.0
+* Flask 2.2.5 (web only)
+* Gunicorn 23.0.0 (webs only)
 
 
 Installation
 ------------
-
-Navigate to the top level folder and type:
-
-``pip3 install --upgrade pip``
-
-``pip3 install -r requirements.txt``
 
 
 Running the Tests
