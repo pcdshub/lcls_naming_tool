@@ -26,17 +26,15 @@ To run the Python script:
 
 To run Flask and Gunicorn web server:
 
-1. Copy all contents of /lcls_naming_tool/web/ folder to host directory. Several files are symlinks and may need to be manually copied into the web folder for the web app to work.
+``ssh psca@psctlws01``
 
-2. To start the web app navigate to the /web folder and type:
+``cd /u1/psca/test/apps/nmsvc``
 
-``export FLASK_APP=app``
+``git pull``
 
-``flask --app app run``
+``./startup.sh``
 
-``gunicorn --config gunicorn_config.py app:app``
-
-If hosting locally the website will be at http://127.0.0.1:8080/
+Website is hosted at https://psdm.slac.stanford.edu/nmsvctest/
 
 
 Requirements
