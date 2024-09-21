@@ -152,27 +152,27 @@ def validate(user_input):
         print('Invalid')
         return False
 
-    pv_name = [x.strip() for x in user_input.split(':')]
+    name = [x.strip() for x in user_input.upper().split(':')]
 
-    for element in pv_name:
+    for element in name:
         if not is_alphanumeric(element):
             print('Invalid')
             return False
 
     # Check the length of the name
-    if (len(pv_name) < 2) or (len(pv_name) > 5):
+    if (len(name) < 2) or (len(name) > 5):
         print('Invalid')
         return False
 
     # Validate the functional component (FFFFF)
-    fc_taxon = list(pv_name[0])
+    fc_taxon = list(name[0])
     fc_valid = functional_component_is_valid(fc_taxon)
 
-    second_element = pv_name[1]
+    second_element = name[1]
 
     if fc_valid:
         # Check for name with 2 elements (FFFFF:CCC)
-        if (len(pv_name)==2):
+        if (len(name)==2):
             ccc_valid = constituent_component_is_valid(second_element)
 
             if ccc_valid:
@@ -182,10 +182,10 @@ def validate(user_input):
                 print('Invalid')
                 return False
 
-        third_element = pv_name[2]
+        third_element = name[2]
 
         # check for name with 3 elements (FFFFF:GGG:CCC, FFFFF:CCC:NN, FFFFF:CCC:XXXX)
-        if (len(pv_name) == 3):
+        if (len(name) == 3):
             fg_valid = fungible_is_valid(second_element)
             ccc_valid = constituent_component_is_valid(second_element)
 
@@ -209,10 +209,10 @@ def validate(user_input):
                 print('Invalid')
                 return False
 
-        fourth_element = pv_name[3]
+        fourth_element = name[3]
 
         # Check for name with 4 elements (FFFFF:GGG:CCC:NN, FFFFF:GGG:CCC:XXXX, FFFFF:CCC:NN:XXXX)
-        if (len(pv_name) == 4):
+        if (len(name) == 4):
             fg_valid = fungible_is_valid(second_element)
             ccc_valid = constituent_component_is_valid(second_element)
 
@@ -243,17 +243,17 @@ def validate(user_input):
                 return False
 
         # check for name with 5 elements (FFFFF:GGG:CCC:NN:XXXX)
-        if (len(pv_name) == 5):
-            fg_taxon = pv_name[1]
+        if (len(name) == 5):
+            fg_taxon = name[1]
             fg_valid = fungible_is_valid(fg_taxon)
 
-            ccc_taxon = pv_name[2]
+            ccc_taxon = name[2]
             ccc_valid = constituent_component_is_valid(ccc_taxon)
 
-            nn_taxon = pv_name[3]
+            nn_taxon = name[3]
             nn_valid = increment_is_valid(nn_taxon)
 
-            fifth_element = pv_name[4]
+            fifth_element = name[4]
             fifth_element_valid = is_alphanumeric(fifth_element)
 
             if fg_valid and ccc_valid and nn_valid and fifth_element_valid:
