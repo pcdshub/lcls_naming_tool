@@ -9,7 +9,6 @@ sys.path.append(os.path.abspath('../'))
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
 
-
 @app.route('/', methods=('GET', 'POST'))
 def index():
 
@@ -29,4 +28,4 @@ def index():
         else:
             flash('Invalid', 'invalid')
 
-    return render_template('./index.html', version=version)
+    return render_template('index.html', version=version)
