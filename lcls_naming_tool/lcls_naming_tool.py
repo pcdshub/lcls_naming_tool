@@ -78,14 +78,14 @@ def load_taxons():
 
 
 def functional_component_is_valid(fc_taxon):
-    # funct
+
     fc_length = len(fc_taxon)
     
-    if (len(fc_taxon) >= 5):
-        fc_prefix = fc_taxon[0] + fc_taxon[1]  # max length is currently two letters
-        fc_seq_num = ''.join(fc_taxon[2:fc_length-2])  # no max length
-        fc_source_ltr = ''.join(fc_taxon[fc_length-2:fc_length-1]) # max length is currently one letter
-        fc_beam_num = ''.join(fc_taxon[fc_length-1:fc_length])     # max length is currently one digit
+    if (4 < len(fc_taxon) < 9):
+        fc_prefix = fc_taxon[0] + fc_taxon[1]  # max length is currently 2 letters
+        fc_seq_num = ''.join(fc_taxon[2:fc_length-2])  # max length set to 4
+        fc_source_ltr = ''.join(fc_taxon[fc_length-2:fc_length-1]) # max length is currently 1 letter
+        fc_beam_num = ''.join(fc_taxon[fc_length-1:fc_length])     # max length is currently 1 digit
     else:
         return False
 
