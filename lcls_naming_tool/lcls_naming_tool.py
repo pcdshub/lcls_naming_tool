@@ -6,6 +6,9 @@
     A tool for checking the form and content (but not meaning) of PV names with
     respect to the LCLS naming convention.
 
+    Functional component source letters and beampath numbers come from 
+    https://docs.google.com/drawings/d/1Sg7pT2TlKq8PgM7UstmJJBLKeqROQeDWbkD0sDoTDdY/edit
+
     A valid PV name is in the format FFFFF:GGG:CCC:NN:XXXX, where GGG and NN are
     optional and can be omitted. The XXXX is omitted for device names.
 
@@ -75,12 +78,14 @@ def load_taxons():
 
 
 def functional_component_is_valid(fc_taxon):
+    # funct
+    fc_length = len(fc_taxon)
     
-    # check length of the functional component
-    if (len(fc_taxon) == 5):
-        fc_prefix = fc_taxon[0] + fc_taxon[1]
-        fc_source_ltr = fc_taxon[3]
-        fc_beam_num = fc_taxon[4]
+    if (len(fc_taxon) >= 5):
+        fc_prefix = fc_taxon[0] + fc_taxon[1]  # max length is currently two letters
+        fc_seq_num = ''.join(fc_taxon[2:fc_length-2])  # no max length
+        fc_source_ltr = ''.join(fc_taxon[fc_length-2:fc_length-1]) # max length is currently one letter
+        fc_beam_num = ''.join(fc_taxon[fc_length-1:fc_length])     # max length is currently one digit
     else:
         return False
 
@@ -89,6 +94,17 @@ def functional_component_is_valid(fc_taxon):
         fc_dict[fc_prefix]
         beam_sources[fc_source_ltr]
         beam_numbers[fc_beam_num]
+
+        try:
+            int(fc_seq_num)
+
+            try:
+                1 / int(fc_seq_num[0])  # zero padding not allowed
+            except 0:
+                return False
+
+        except:
+            return False
 
     except KeyError:
         return False
