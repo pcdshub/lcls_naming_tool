@@ -82,7 +82,7 @@ def functional_component_is_valid(fc_taxon):
     fc_length = len(fc_taxon)
     
     if (4 < len(fc_taxon) < 9):
-        fc_prefix = fc_taxon[0] + fc_taxon[1]  # max length is currently 2 letters
+        fc_prefix = ''.join(fc_taxon[:2])  # max length is currently 2 letters
         fc_seq_num = ''.join(fc_taxon[2:fc_length-2])  # max length set to 4
         fc_source_ltr = ''.join(fc_taxon[fc_length-2:fc_length-1]) # max length is currently 1 letter
         fc_beam_num = ''.join(fc_taxon[fc_length-1:fc_length])     # max length is currently 1 digit
@@ -139,15 +139,16 @@ def constituent_component_is_valid(ccc_taxon):
 
 def increment_is_valid(nn_taxon):
     # check the increment is an int and has at least 2 digits
-    try:
-        assert int(nn_taxon)
-        assert len(nn_taxon) >= 2
+    if len(nn_taxon) >= 2:
+        try:
+            int(nn_taxon)
+        except 0:
+            return False
 
-    except ValueError:
-        return False
-
+        else:
+            return True
     else:
-        return True
+        return False
 
 
 def is_alphanumeric(taxon):
