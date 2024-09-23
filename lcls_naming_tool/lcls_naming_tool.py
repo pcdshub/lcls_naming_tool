@@ -82,10 +82,10 @@ def functional_component_is_valid(fc_taxon):
     fc_length = len(fc_taxon)
     
     if (4 < len(fc_taxon) < 9):
-        fc_prefix = ''.join(fc_taxon[:2])  # max length is currently 2 letters
-        fc_seq_num = ''.join(fc_taxon[2:fc_length-2])  # max length set to 4
-        fc_source_ltr = ''.join(fc_taxon[fc_length-2:fc_length-1]) # max length is currently 1 letter
-        fc_beam_num = ''.join(fc_taxon[fc_length-1:fc_length])     # max length is currently 1 digit
+        fc_prefix = fc_taxon[:2]  # max length is currently 2 letters
+        fc_seq_num = fc_taxon[2:fc_length-2]  # max length set to 4
+        fc_source_ltr = fc_taxon[fc_length-2:fc_length-1] # max length is currently 1 letter
+        fc_beam_num = fc_taxon[fc_length-1:fc_length]     # max length is currently 1 digit
     else:
         return False
 
@@ -151,7 +151,7 @@ def increment_is_valid(nn_taxon):
         return False
 
 
-def is_alphanumeric(taxon):
+def starts_alphanumeric(taxon):
     # check the element starts with a letter or number 
     match = re.search('^[a-zA-Z0-9]', taxon)
     if match:
@@ -161,18 +161,13 @@ def is_alphanumeric(taxon):
 
 
 def validate(user_input):
-    try:
-        assert '.' not in user_input
-        assert (len(user_input) <= 60)
-
-    except AssertionError:
-        print('Invalid')
+    if ('.' in user_input) or (len(user_input) > 60):
         return False
 
     name = [x.strip() for x in user_input.upper().split(':')]
 
     for element in name:
-        if not is_alphanumeric(element):
+        if not starts_alphanumeric(element):
             print('Invalid')
             return False
 
@@ -182,7 +177,7 @@ def validate(user_input):
         return False
 
     # Validate the functional component (FFFFF)
-    fc_taxon = list(name[0])
+    fc_taxon = str(name[0])
     fc_valid = functional_component_is_valid(fc_taxon)
 
     second_element = name[1]
@@ -215,7 +210,7 @@ def validate(user_input):
                     print('Invalid')
                     return False
             elif ccc_valid:
-                    element_valid = is_alphanumeric(third_element)
+                    element_valid = starts_alphanumeric(third_element)
                     if element_valid:
                         print('Valid')
                         return True
@@ -235,7 +230,7 @@ def validate(user_input):
 
             if fg_valid:
                 ccc_valid = constituent_component_is_valid(third_element)
-                fourth_element_valid = is_alphanumeric(fourth_element)
+                fourth_element_valid = starts_alphanumeric(fourth_element)
 
                 if ccc_valid and fourth_element_valid:
                     print('Valid')
@@ -245,10 +240,10 @@ def validate(user_input):
                     return False
                 
             elif ccc_valid:
-                third_element_valid = is_alphanumeric(third_element)
-                fourth_element_valid = is_alphanumeric(fourth_element)
+                increment_valid = increment_is_valid(third_element)
+                cspv_valid = starts_alphanumeric(fourth_element)
 
-                if third_element_valid and fourth_element_valid:
+                if increment_valid and cspv_valid:
                     print('Valid')
                     return True
                 else:
@@ -271,7 +266,7 @@ def validate(user_input):
             nn_valid = increment_is_valid(nn_taxon)
 
             fifth_element = name[4]
-            fifth_element_valid = is_alphanumeric(fifth_element)
+            fifth_element_valid = starts_alphanumeric(fifth_element)
 
             if fg_valid and ccc_valid and nn_valid and fifth_element_valid:
                 print('Valid')
@@ -306,6 +301,9 @@ def main():
     for line in input_stream:
         validate(line)
 
+
+if __name__ == "__main__":
+    main()
 
 if __name__ == "__main__":
     main()
