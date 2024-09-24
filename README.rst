@@ -36,7 +36,7 @@ To run Flask and Gunicorn web server:
 
 ``./startup.sh``
 
-Website is hosted at https://psdm.slac.stanford.edu/nmsvctest/
+Website is hosted at https://psdm.slac.stanford.edu/lcls_naming_tool/
 
 
 Requirements
