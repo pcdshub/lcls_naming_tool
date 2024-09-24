@@ -148,11 +148,7 @@ def increment_is_valid(nn_taxon):
 
 def starts_alphanumeric(taxon):
     # check the element starts with a letter or number 
-    match = re.search('^[a-zA-Z0-9]', taxon)
-    if match and (len(taxon) >= 2):
-        return True
-    else:
-        return False
+    return re.search('^[a-zA-Z0-9]', taxon)
 
 
 def validate(user_input):
