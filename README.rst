@@ -51,7 +51,6 @@ Website is hosted at https://pswww.slac.stanford.edu/lcls_naming_tool/
 Requirements
 ------------
 
-* PCDS conda
 * Python 3.9+
 * Flask 2.2.5 (web only)
 * Gunicorn 23.0.0 (web only)
