@@ -3,16 +3,16 @@
 '''
     LCLS Naming Tool
 
-    A tool for checking the form and content (but not meaning) of PV names with
+    A tool for checking the form and content (but not meaning) of names with
     respect to the LCLS naming convention.
 
     Functional component source letters and beampath numbers come from 
     https://docs.google.com/drawings/d/1Sg7pT2TlKq8PgM7UstmJJBLKeqROQeDWbkD0sDoTDdY/edit
 
-    A valid PV name is in the format FFFFF:GGG:CCC:NN:XXXX, where GGG and NN are
+    A valid name is in the format FFFFF:GGG:CCC:NN:XXXX, where GGG and NN are
     optional and can be omitted. The XXXX is omitted for device names.
 
-    All permutations of valid PV and device names according to 
+    All permutations of valid names according to 
     LCLS_Photon_Source_and_Systems_Nomenclature.pdf. Names ending in XXXX are 
     PV names. Without XXXX are device names.
 
@@ -282,7 +282,7 @@ def main():
 
     load_taxons()
 
-    # Check if user entered a file name or PV name (a string)
+    # Check if user entered a file name or a string
     if not sys.stdin.isatty():
         input_stream = sys.stdin
     else:
