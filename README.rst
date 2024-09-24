@@ -17,8 +17,8 @@ Instructions
 ------------
 
 Use at the command line:
-1. Activate the custom virtual environment
-``source /cds/group/pcds/pyps/conda/venvs/lcls_naming_tool/bin/activate``
+
+1. Activate the custom virtual environment with ``source /cds/group/pcds/pyps/conda/venvs/lcls_naming_tool/bin/activate``
 
 2. To check if a PV or device name is valid pipe in the name like so ``$ echo "MR2K4:KBO:PIP:01:PUMPSIZE" | ./lcls_naming_tool.py``
 
