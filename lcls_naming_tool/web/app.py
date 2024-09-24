@@ -15,13 +15,13 @@ def index():
     version = get_version()
 
     if request.method == 'POST':
-        pv_name = str(request.form['pv_name']).upper()
+        lcls_name = str(request.form['lcls_name']).upper()
 
-        flash(pv_name, 'pv_name')
+        flash(lcls_name, 'lcls_name')
 
         load_taxons()
 
-        is_valid = validate(pv_name)
+        is_valid = validate(lcls_name)
 
         if is_valid:
             flash('Valid', 'valid')
