@@ -138,7 +138,7 @@ def increment_is_valid(nn_taxon):
         try:
             int(nn_taxon)
 
-        except TypeError:
+        except ValueError:
             return False
 
         else:
@@ -297,9 +297,6 @@ def main():
     for line in input_stream:
         validate(line)
 
-
-if __name__ == "__main__":
-    main()
 
 if __name__ == "__main__":
     main()
