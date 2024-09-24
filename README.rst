@@ -54,7 +54,7 @@ Requirements
 * PCDS conda
 * Python 3.9+
 * Flask 2.2.5 (web only)
-* Gunicorn 23.0.0 (webs only)
+* Gunicorn 23.0.0 (web only)
 
 
 Installation
