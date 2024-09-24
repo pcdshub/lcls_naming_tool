@@ -125,7 +125,8 @@ def fungible_is_valid(fg_taxon):
 def constituent_component_is_valid(ccc_taxon):
     try:
         ccc_dict[ccc_taxon]
-    except:
+
+    except KeyError:
         return False
     else:
         return True
@@ -136,7 +137,8 @@ def increment_is_valid(nn_taxon):
     if len(nn_taxon) >= 2:
         try:
             int(nn_taxon)
-        except 0:
+
+        except TypeError:
             return False
 
         else:
@@ -195,7 +197,7 @@ def validate(user_input):
             fg_valid = fungible_is_valid(second_element)
             ccc_valid = constituent_component_is_valid(second_element)
 
-            if fg_valid:   
+            if fg_valid:
                 ccc_valid = constituent_component_is_valid(third_element)
                 if ccc_valid:
                     print('Valid')
