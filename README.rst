@@ -13,6 +13,15 @@ lcls_naming_tool
 
 A tool that checks the form and content of PV and device names with respect to the LCLS naming convention.
 
+Taxons used are sourced from:
+
+https://github.com/pcdshub/lcls_naming_tool/blob/main/docs/LCLS_Photon_Source_and_Systems_Nomenclature.pdf
+
+https://docs.google.com/spreadsheets/d/1u5EfR9FIvwyTieWiMkCRqpBfHj-_xm3AygjFlxxWgDc/edit?gid=0#gid=0
+
+https://docs.google.com/spreadsheets/d/1SeQhfwZ6O-wg8tyr_MCQZY1boJC-6j3N6EzexfZB-AU/edit?gid=0#gid=0
+
+
 Instructions
 ------------
 
