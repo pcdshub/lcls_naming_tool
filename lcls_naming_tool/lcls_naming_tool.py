@@ -38,8 +38,8 @@ import re
 fc_dict = {}
 fg_dict = {}
 ccc_dict = {}
-beam_sources = {'K': '', 'L': ''}
-beam_numbers = {'0': '', '1': '', '2': '', '3': '', '4': '', '5': ''}
+beam_sources = ('K', 'L')
+beam_numbers = ('0', '1', '2', '3', '4', '5')
 
 
 def get_version():
@@ -92,21 +92,15 @@ def functional_component_is_valid(fc_taxon):
     # validate FFFFF
     try:
         fc_dict[fc_prefix]
-        beam_sources[fc_source_ltr]
-        beam_numbers[fc_beam_num]
+        int(fc_seq_num)
 
-        try:
-            int(fc_seq_num)
+        if (fc_source_ltr not in beam_sources) or (fc_beam_num not in beam_numbers):
+            raise NameError
+        
+        if int(fc_seq_num[0])==0:  # zero padding for sequence number is not allowed
+            raise ValueError
 
-            try:
-                1 / int(fc_seq_num[0])  # zero padding not allowed
-            except 0:
-                return False
-
-        except:
-            return False
-
-    except KeyError:
+    except (KeyError, NameError, ValueError):
         return False
 
     else:
@@ -154,7 +148,7 @@ def increment_is_valid(nn_taxon):
 def starts_alphanumeric(taxon):
     # check the element starts with a letter or number 
     match = re.search('^[a-zA-Z0-9]', taxon)
-    if match:
+    if match and (len(taxon) >= 2):
         return True
     else:
         return False
