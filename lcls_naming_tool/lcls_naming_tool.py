@@ -109,8 +109,7 @@ def functional_component_is_valid(fc_taxon):
 
 def fungible_is_valid(fg_taxon):
     try:
-        fg_elements = fg_taxon.replace(
-            '_', ' ').split()
+        fg_elements = fg_taxon.split("_")
 
         for name in fg_elements:
             fg_dict[name]
