@@ -9,6 +9,8 @@ sys.path.append(os.path.abspath('../'))
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
 
+load_taxons()
+
 @app.route('/', methods=('GET', 'POST'))
 def index():
 
@@ -18,8 +20,6 @@ def index():
         lcls_name = str(request.form['lcls_name']).upper()
 
         flash(lcls_name, 'lcls_name')
-
-        load_taxons()
 
         is_valid = validate(lcls_name)
 
