@@ -278,6 +278,8 @@ def main():
         else:
             print('Invalid')
 
+    input_stream.close()
+    
 
 if __name__ == "__main__":
     main()
