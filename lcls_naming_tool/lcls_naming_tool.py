@@ -33,6 +33,7 @@ import subprocess
 import sys
 import json
 import re
+from pathlib import Path
 
 
 fc_dict = {}
@@ -44,19 +45,21 @@ beam_numbers = ('0', '1', '2', '3', '4', '5')
 
 def get_version():
     result = subprocess.run(
-        ['git', 'describe', '--tags'], 
-        capture_output=True, 
+        ['git', 'describe', '--tags'],
+        capture_output=True,
         text=True
     )
     return (str(result.stdout).strip().split('-'))[0]
 
+
 def display_version():
     version = get_version()
 
-    parser = argparse.ArgumentParser(description="Current version of LCLS Naming Tool")
+    parser = argparse.ArgumentParser(
+        description="Current version of LCLS Naming Tool")
     parser.add_argument('-v', '--version', action='store_true')
     args = parser.parse_args()
-    
+
     if args.version:
         print(version)
 
@@ -67,25 +70,27 @@ def load_taxons():
     global ccc_dict
 
     # Read the json files containing all the taxons
-    with open('taxons/functional_component_taxon.json') as fc_file:
+    with open(Path(__file__).parent/'taxons/functional_component_taxon.json') as fc_file:
         fc_dict = json.load(fc_file)
 
-    with open('taxons/fungible_element_taxon.json') as fg_file:
+    with open(Path(__file__).parent/'taxons/fungible_element_taxon.json') as fg_file:
         fg_dict = json.load(fg_file)
 
-    with open('taxons/ccc_taxon.json') as ccc_file:
+    with open(Path(__file__).parent/'taxons/ccc_taxon.json') as ccc_file:
         ccc_dict = json.load(ccc_file)
 
 
 def functional_component_is_valid(fc_taxon):
 
     fc_length = len(fc_taxon)
-    
+
     if (4 < len(fc_taxon) < 9):
         fc_prefix = fc_taxon[:2]  # max length is currently 2 letters
         fc_seq_num = fc_taxon[2:fc_length-2]  # max length set to 4
-        fc_source_ltr = fc_taxon[fc_length-2:fc_length-1] # max length is currently 1 letter
-        fc_beam_num = fc_taxon[fc_length-1:fc_length]     # max length is currently 1 digit
+        # max length is currently 1 letter
+        fc_source_ltr = fc_taxon[fc_length-2:fc_length-1]
+        # max length is currently 1 digit
+        fc_beam_num = fc_taxon[fc_length-1:fc_length]
     else:
         return False
 
@@ -96,8 +101,8 @@ def functional_component_is_valid(fc_taxon):
 
         if (fc_source_ltr not in beam_sources) or (fc_beam_num not in beam_numbers):
             raise NameError
-        
-        if int(fc_seq_num[0])==0:  # zero padding for sequence number is not allowed
+
+        if int(fc_seq_num[0]) == 0:  # zero padding for sequence number is not allowed
             raise ValueError
 
     except (KeyError, NameError, ValueError):
@@ -147,7 +152,7 @@ def increment_is_valid(nn_taxon):
 
 
 def starts_alphanumeric(taxon):
-    # check the element starts with a letter or number 
+    # check the element starts with a letter or number
     return re.search('^[a-zA-Z0-9]', taxon)
 
 
@@ -173,7 +178,7 @@ def validate(user_input):
 
     if fc_valid:
         # Check for name with 2 elements (FFFFF:CCC)
-        if (len(name)==2):
+        if (len(name) == 2):
             ccc_valid = constituent_component_is_valid(second_element)
 
             if ccc_valid:
@@ -195,11 +200,11 @@ def validate(user_input):
                 else:
                     return False
             elif ccc_valid:
-                    element_valid = starts_alphanumeric(third_element)
-                    if element_valid:
-                        return True
-                    else:
-                        return False
+                element_valid = starts_alphanumeric(third_element)
+                if element_valid:
+                    return True
+                else:
+                    return False
             else:
                 return False
 
@@ -218,7 +223,7 @@ def validate(user_input):
                     return True
                 else:
                     return False
-                
+
             elif ccc_valid:
                 increment_valid = increment_is_valid(third_element)
                 cspv_valid = starts_alphanumeric(fourth_element)
@@ -227,7 +232,7 @@ def validate(user_input):
                     return True
                 else:
                     return False
-                
+
             else:
                 return False
 
@@ -279,7 +284,7 @@ def main():
             print('Invalid')
 
     input_stream.close()
-    
+
 
 if __name__ == "__main__":
     main()
