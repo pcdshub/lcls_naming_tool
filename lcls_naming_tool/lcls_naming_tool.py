@@ -159,12 +159,10 @@ def validate(user_input):
 
     for element in name:
         if not starts_alphanumeric(element):
-            print('Invalid')
             return False
 
     # Check the length of the name
     if (len(name) < 2) or (len(name) > 5):
-        print('Invalid')
         return False
 
     # Validate the functional component (FFFFF)
@@ -179,10 +177,8 @@ def validate(user_input):
             ccc_valid = constituent_component_is_valid(second_element)
 
             if ccc_valid:
-                print('Valid')
                 return True
             else:
-                print('Invalid')
                 return False
 
         third_element = name[2]
@@ -195,21 +191,16 @@ def validate(user_input):
             if fg_valid:
                 ccc_valid = constituent_component_is_valid(third_element)
                 if ccc_valid:
-                    print('Valid')
                     return True
                 else:
-                    print('Invalid')
                     return False
             elif ccc_valid:
                     element_valid = starts_alphanumeric(third_element)
                     if element_valid:
-                        print('Valid')
                         return True
                     else:
-                        print('Invalid')
                         return False
             else:
-                print('Invalid')
                 return False
 
         fourth_element = name[3]
@@ -224,10 +215,8 @@ def validate(user_input):
                 fourth_element_valid = starts_alphanumeric(fourth_element)
 
                 if ccc_valid and fourth_element_valid:
-                    print('Valid')
                     return True
                 else:
-                    print('Invalid')
                     return False
                 
             elif ccc_valid:
@@ -235,14 +224,11 @@ def validate(user_input):
                 cspv_valid = starts_alphanumeric(fourth_element)
 
                 if increment_valid and cspv_valid:
-                    print('Valid')
                     return True
                 else:
-                    print('Invalid')
                     return False
                 
             else:
-                print('Invalid')
                 return False
 
         # check for name with 5 elements (FFFFF:GGG:CCC:NN:XXXX)
@@ -260,14 +246,11 @@ def validate(user_input):
             fifth_element_valid = starts_alphanumeric(fifth_element)
 
             if fg_valid and ccc_valid and nn_valid and fifth_element_valid:
-                print('Valid')
                 return True
             else:
-                print('Invalid')
                 return False
 
     else:
-        print('Invalid')
         return False
 
 
@@ -290,7 +273,10 @@ def main():
             input_stream = open(input_filename, newline='')
 
     for line in input_stream:
-        validate(line)
+        if validate(line):
+            print('Valid')
+        else:
+            print('Invalid')
 
 
 if __name__ == "__main__":
