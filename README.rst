@@ -35,15 +35,33 @@ Use at the command line:
 
 4. To view the current version add ``-v`` or ``--version`` like so ``$ echo "MR2K4:KBO:PIP:01:PUMPSIZE" | ./lcls_naming_tool.py -v``
 
-To run Flask and Gunicorn web server:
+
+Use in a Python script:
+
+1. Activate the custom virtual environment with ``source /cds/group/pcds/pyps/conda/venvs/lcls_naming_tool/bin/activate``.
+
+2. In your current working directory git clone the lcls_naming_tool repo.
+
+3. Set the python path variable ``export PYTHONPATH=$PWD/lcls_naming_tool/lcls_naming_tool``.
+
+4. Add this import statement to the top of your file ``from lcls_naming_tool import load_taxons, validate``.
+
+5. The function ``load_taxons()`` should be called first. It takes no parameters and loads all the approved taxons. The function ``validate()`` takes a PV or device name in string format as a parameter and returns ``True`` for a valid name or ``False`` for an invalid name.
+
+
+Run the web server:
 
 ``ssh psca@psctlws01``
 
-``cd /u1/psca/test/apps/nmsvc``
+``cd /u1/psca/prod/apps/lcls_naming_tool``
 
 ``git pull``
 
-``./startup.sh``
+``supervisorctl``
+
+``supervisor> stop lcls_naming_tool``
+
+``supervisor> start lcls_naming_tool``
 
 Website is hosted at https://pswww.slac.stanford.edu/lcls_naming_tool/
 
