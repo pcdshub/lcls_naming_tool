@@ -3,7 +3,7 @@
 import pytest
 import json
 from pathlib import Path
-from lcls_naming_tool import display_version, load_taxons, functional_component_is_valid, fungible_is_valid, constituent_component_is_valid, increment_is_valid, starts_alphanumeric, validate
+from lcls_naming_tool.lcls_naming_tool import display_version, load_taxons, functional_component_is_valid, fungible_is_valid, constituent_component_is_valid, increment_is_valid, starts_alphanumeric, validate
 
 
 @pytest.fixture
