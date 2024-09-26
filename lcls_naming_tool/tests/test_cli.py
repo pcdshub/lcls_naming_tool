@@ -23,10 +23,6 @@ def test_display_version(capsys):
     assert str(captured.out).strip() == 'v1.0.0'
 
 
-def test_load_taxons():
-    pass
-
-
 load_taxons()
 
 
