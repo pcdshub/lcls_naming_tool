@@ -27,29 +27,31 @@ Instructions
 
 Use at the command line:
 
-1. Activate the custom virtual environment with ``source /cds/group/pcds/pyps/conda/venvs/lcls_naming_tool/bin/activate``
+1. In your current working directory type ``source /cds/group/pcds/pyps/conda/venvs/lcls_naming_tool/bin/activate``
 
-2. To check if a PV or device name is valid pipe in the name like so ``$ echo "MR2K4:KBO:PIP:01:PUMPSIZE" | ./lcls_naming_tool.py``
+2. To check if a PV or device name is valid pipe in the name to the tool. For example, ``$ echo "MR2K4:KBO:PIP:01:PUMPSIZE" | ./lcls_naming_tool.py``
 
-3. To check if a list of names is valid pipe in the file name like so ``$ cat pvlist.txt | ./lcls_naming_tool.py`` (names should be separated by newline characters.)
+3. To check if a list of names is valid pipe in the file name to the tool. For example, ``$ cat pvlist.txt | ./lcls_naming_tool.py`` (names should be separated by newline characters.)
 
-4. To view the current version add ``-v`` or ``--version`` like so ``$ echo "MR2K4:KBO:PIP:01:PUMPSIZE" | ./lcls_naming_tool.py -v``
+4. To view the current version add ``-v`` or ``--version``. For example, ``$ echo "MR2K4:KBO:PIP:01:PUMPSIZE" | ./lcls_naming_tool.py --version``
 
 
 Use in a Python script:
 
-1. Activate the custom virtual environment with ``source /cds/group/pcds/pyps/conda/venvs/lcls_naming_tool/bin/activate``.
+1. In your current working directory set up the environment: 
 
-2. In your current working directory git clone the lcls_naming_tool repo.
+``source /cds/group/pcds/pyps/conda/venvs/lcls_naming_tool/bin/activate``
 
-3. Set the python path variable ``export PYTHONPATH=$PWD/lcls_naming_tool/lcls_naming_tool``.
+``git clone git@github.com:pcdshub/lcls_naming_tool.git``
 
-4. Add this import statement to the top of your file ``from lcls_naming_tool import load_taxons, validate``.
+``export PYTHONPATH=$PWD/lcls_naming_tool/lcls_naming_tool``
 
-5. The function ``load_taxons()`` should be called first. It takes no parameters and loads all the approved taxons. The function ``validate()`` takes a PV or device name in string format as a parameter and returns ``True`` for a valid name or ``False`` for an invalid name.
+2. To call the LCLS Naming Tool module ``from lcls_naming_tool import load_taxons, validate``
+
+5. In your ``main`` function ``load_taxons()`` should be called first. It takes no parameters and loads all the approved taxons in JSON format. The function ``validate()`` takes a PV or device name in string format as a parameter and returns ``True`` for a valid name or ``False`` for an invalid name.
 
 
-Run the web server:
+To run the web server:
 
 ``ssh psca@psctlws01``
 
