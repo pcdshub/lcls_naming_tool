@@ -42,9 +42,7 @@ Use in a Python script:
 
 ``source /cds/group/pcds/pyps/conda/venvs/lcls_naming_tool/bin/activate``
 
-``git clone git@github.com:pcdshub/lcls_naming_tool.git``
-
-``export PYTHONPATH=$PWD/lcls_naming_tool/lcls_naming_tool``
+``pip install lcls_naming_tool``
 
 2. To call the LCLS Naming Tool module ``from lcls_naming_tool import load_taxons, validate``
 
