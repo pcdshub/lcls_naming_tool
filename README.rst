@@ -44,9 +44,9 @@ Use in a Python script:
 
 ``pip install lcls_naming_tool``
 
-2. To call the LCLS Naming Tool module ``from lcls_naming_tool import load_taxons, validate``
+2. Add ``from lcls_naming_tool import load_taxons, validate`` to the top of your file.
 
-5. In your ``main`` function ``load_taxons()`` should be called first. It takes no parameters and loads all the approved taxons in JSON format. The function ``validate()`` takes a PV or device name in string format as a parameter and returns ``True`` for a valid name or ``False`` for an invalid name.
+3. In your ``main`` function ``load_taxons()`` should be called first. It takes no parameters and loads all the approved taxons in JSON format. To check a PV or device name call the ``validate()`` function. ``validate()`` accepts a string as a parameter and returns ``True`` if the name is valid or  ``False`` if it's invalid.
 
 
 To run the web server:
