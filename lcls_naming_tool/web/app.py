@@ -9,10 +9,11 @@ sys.path.append(os.path.abspath('../'))
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
 
-load_taxons()
 
 @app.route('/', methods=('GET', 'POST'))
 def index():
+    
+    load_taxons()
 
     version = get_version()
 
