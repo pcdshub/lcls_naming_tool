@@ -31,10 +31,13 @@
 import argparse
 import subprocess
 import sys
+import os
 import json
 import re
 from pathlib import Path
 
+if os.environ.get('LCLS_NAMING_TOOL_TAXONS_DIR', False):
+    lcls_taxons_cfg = os.environ.get('LCLS_NAMING_TOOL_TAXONS_DIR')
 
 fc_dict = {}
 fg_dict = {}
@@ -70,13 +73,13 @@ def load_taxons():
     global ccc_dict
 
     # Read the json files containing all the taxons
-    with open(Path(__file__).parent/'taxons/functional_component_taxon.json') as fc_file:
+    with open(lcls_taxons_cfg + '/functional_component_taxon.json') as fc_file:
         fc_dict = json.load(fc_file)
 
-    with open(Path(__file__).parent/'taxons/fungible_element_taxon.json') as fg_file:
+    with open(lcls_taxons_cfg + '/fungible_element_taxon.json') as fg_file:
         fg_dict = json.load(fg_file)
 
-    with open(Path(__file__).parent/'taxons/ccc_taxon.json') as ccc_file:
+    with open(lcls_taxons_cfg + '/ccc_taxon.json') as ccc_file:
         ccc_dict = json.load(ccc_file)
 
 
