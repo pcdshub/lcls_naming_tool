@@ -34,7 +34,6 @@ import sys
 import os
 import json
 import re
-from pathlib import Path
 
 
 lcls_taxons_cfg = str(os.environ.get('LCLS_NAMING_TOOL_TAXONS_DIR'))
@@ -53,18 +52,6 @@ def get_version():
         text=True
     )
     return (str(result.stdout).strip().split('-'))[0]
-
-
-def display_version():
-    version = get_version()
-
-    parser = argparse.ArgumentParser(
-        description="Current version of LCLS Naming Tool")
-    parser.add_argument('-v', '--version', action='store_true')
-    args = parser.parse_args()
-
-    if args.version:
-        print(version)
 
 
 def load_taxons():
@@ -265,7 +252,7 @@ def validate(user_input):
 
 def main():
 
-    display_version()
+    version = get_version()
 
     load_taxons()
 
@@ -273,9 +260,15 @@ def main():
     parser.add_argument('string',
                         nargs='*',
                         type=str,
-                        help='PV or device name to process')
-
+                        help='PV or device name to validate')
+    parser.add_argument('-v', 
+                        '--version', 
+                        action='store_true')
     args = parser.parse_args()
+
+    if args.version:
+        print(version)
+        sys.exit()
 
     # If no strings are provided via command line arguments, read from stdin
     if not args.string:
