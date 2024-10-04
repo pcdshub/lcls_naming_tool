@@ -4,14 +4,12 @@ import pytest
 import json
 import os
 from pathlib import Path
-from lcls_naming_tool.lcls_naming_tool import display_version, load_taxons, functional_component_is_valid, fungible_is_valid, constituent_component_is_valid, increment_is_valid, starts_alphanumeric, validate
+from lcls_naming_tool.lcls_naming_tool import get_version, load_taxons, functional_component_is_valid, fungible_is_valid, constituent_component_is_valid, increment_is_valid, starts_alphanumeric, validate
 
 
-def test_display_version(capsys):
-    display_version()
-    captured = capsys.readouterr()
+def test_get_version():
     curr_ver = os.popen('git describe --tags').read().strip().split('-')
-    assert str(captured.out).strip() == curr_ver[0]
+    assert str(get_version()) == curr_ver[0]
 
 
 load_taxons()
