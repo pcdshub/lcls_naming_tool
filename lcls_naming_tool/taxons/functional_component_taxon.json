@@ -16,7 +16,7 @@
     "SL": "Slits or Adjustable Aperture",
     "SP": "Spectrometer or Monochromator",
     "ST": "Photon Stoppers (mechanically movable)",
-    "SF": "Fixed Photon",
+    "SF": "Fixed Photon Stopper",
     "SM": "Machine Protection System Photon Stopper",
     "TM": "Arrival Time Monitor",
     "TV": "Transport (Vacuum) tube or cross (Used when vacuum elements are not clearly associated with an adjacent component)",
