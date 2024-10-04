@@ -36,8 +36,8 @@ import json
 import re
 from pathlib import Path
 
-if os.environ.get('LCLS_NAMING_TOOL_TAXONS_DIR', False):
-    lcls_taxons_cfg = os.environ.get('LCLS_NAMING_TOOL_TAXONS_DIR')
+
+lcls_taxons_cfg = str(os.environ.get('LCLS_NAMING_TOOL_TAXONS_DIR'))
 
 fc_dict = {}
 fg_dict = {}
@@ -71,6 +71,7 @@ def load_taxons():
     global fc_dict
     global fg_dict
     global ccc_dict
+    global lcls_taxons_cfg
 
     # Read the json files containing all the taxons
     with open(lcls_taxons_cfg + '/functional_component_taxon.json') as fc_file:
@@ -268,25 +269,24 @@ def main():
 
     load_taxons()
 
-    # Check if user entered a file name or a string
-    if not sys.stdin.isatty():
-        input_stream = sys.stdin
-    else:
-        try:
-            input_filename = sys.argv[1]
-        except IndexError:
-            message = 'File name not entered.'
-            raise IndexError(message)
-        else:
-            input_stream = open(input_filename, newline='')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('string',
+                        nargs='*',
+                        type=str,
+                        help='PV or device name to process')
 
-    for line in input_stream:
-        if validate(line):
+    args = parser.parse_args()
+
+    # If no strings are provided via command line arguments, read from stdin
+    if not args.string:
+        args.string = sys.stdin.read().splitlines()
+
+    # Process the strings
+    for string in args.string:
+        if validate(string):
             print('Valid')
         else:
             print('Invalid')
-
-    input_stream.close()
 
 
 if __name__ == "__main__":
