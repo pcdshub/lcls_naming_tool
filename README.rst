@@ -29,16 +29,16 @@ Use at the command line:
 
 1. In your current working directory type ``source /cds/group/pcds/pyps/conda/venvs/lcls_naming_tool/bin/activate``
 
-2. To check if a PV or device name is valid pipe in the name to the tool. For example, ``$ echo "MR2K4:KBO:PIP:01:PUMPSIZE" | ./lcls_naming_tool.py``
+2. To check if a PV or device name is valid pipe in the name to the tool. For example, ``$ echo 'MR2K4:KBO:PIP:01:PUMPSIZE' | ./lcls_naming_tool.py``
 
 3. To check if a list of names is valid pipe in the file name to the tool. For example, ``$ cat pvlist.txt | ./lcls_naming_tool.py`` (names should be separated by newline characters.)
 
-4. To view the current version add ``-v`` or ``--version``. For example, ``$ echo "MR2K4:KBO:PIP:01:PUMPSIZE" | ./lcls_naming_tool.py --version``
+4. To view the current version add ``-v`` or ``--version``. For example, ``$ echo 'MR2K4:KBO:PIP:01:PUMPSIZE' | ./lcls_naming_tool.py --version``
 
 
 Use in a Python script:
 
-1. In your current working directory set up the environment: 
+1. In your current working directory set up the environment:
 
 ``source /cds/group/pcds/pyps/conda/venvs/lcls_naming_tool/bin/activate``
 
@@ -80,4 +80,3 @@ Installation
 
 Running the Tests
 -----------------
-
