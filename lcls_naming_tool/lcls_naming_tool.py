@@ -6,14 +6,14 @@
     A tool for checking the form and content (but not meaning) of names with
     respect to the LCLS naming convention.
 
-    Functional component source letters and beampath numbers come from 
+    Functional component source letters and beampath numbers come from
     https://docs.google.com/drawings/d/1Sg7pT2TlKq8PgM7UstmJJBLKeqROQeDWbkD0sDoTDdY/edit
 
     A valid name is in the format FFFFF:GGG:CCC:NN:XXXX, where GGG and NN are
     optional and can be omitted. The XXXX is omitted for device names.
 
-    All permutations of valid names according to 
-    LCLS_Photon_Source_and_Systems_Nomenclature.pdf. Names ending in XXXX are 
+    All permutations of valid names according to
+    LCLS_Photon_Source_and_Systems_Nomenclature.pdf. Names ending in XXXX are
     PV names. Without XXXX are device names.
 
         FFFFF:CCC
@@ -261,8 +261,8 @@ def main():
                         nargs='*',
                         type=str,
                         help='PV or device name to validate')
-    parser.add_argument('-v', 
-                        '--version', 
+    parser.add_argument('-v',
+                        '--version',
                         action='store_true')
     args = parser.parse_args()
 

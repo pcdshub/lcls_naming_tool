@@ -12,7 +12,7 @@ app.config['SECRET_KEY'] = 'your secret key'
 
 @app.route('/', methods=('GET', 'POST'))
 def index():
-    
+
     load_taxons()
 
     version = get_version()
