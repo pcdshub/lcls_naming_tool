@@ -20,4 +20,4 @@ Maintenance
 
 Contributors
 ------------
-Jane Liu
+- janeliu-slac
