@@ -29,26 +29,24 @@ Use at the command line:
 
 1. In your current working directory type ``source /cds/group/pcds/pyps/conda/venvs/lcls_naming_tool/bin/activate``
 
-2. To check if a PV or device name is valid pipe in the name to the tool. For example, ``$ echo "MR2K4:KBO:PIP:01:PUMPSIZE" | ./lcls_naming_tool.py``
+2. To check if a PV or device name is valid pipe in the name to the tool. For example, ``$ echo 'MR2K4:KBO:PIP:01:PUMPSIZE' | ./lcls_naming_tool.py``
 
 3. To check if a list of names is valid pipe in the file name to the tool. For example, ``$ cat pvlist.txt | ./lcls_naming_tool.py`` (names should be separated by newline characters.)
 
-4. To view the current version add ``-v`` or ``--version``. For example, ``$ echo "MR2K4:KBO:PIP:01:PUMPSIZE" | ./lcls_naming_tool.py --version``
+4. To view the current version add ``-v`` or ``--version``. For example, ``$ echo 'MR2K4:KBO:PIP:01:PUMPSIZE' | ./lcls_naming_tool.py --version``
 
 
 Use in a Python script:
 
-1. In your current working directory set up the environment: 
+1. In your current working directory set up the environment:
 
 ``source /cds/group/pcds/pyps/conda/venvs/lcls_naming_tool/bin/activate``
 
-``git clone git@github.com:pcdshub/lcls_naming_tool.git``
+``pip install lcls_naming_tool``
 
-``export PYTHONPATH=$PWD/lcls_naming_tool/lcls_naming_tool``
+2. Add ``from lcls_naming_tool import load_taxons, validate`` to the top of your file.
 
-2. To call the LCLS Naming Tool module ``from lcls_naming_tool import load_taxons, validate``
-
-5. In your ``main`` function ``load_taxons()`` should be called first. It takes no parameters and loads all the approved taxons in JSON format. The function ``validate()`` takes a PV or device name in string format as a parameter and returns ``True`` for a valid name or ``False`` for an invalid name.
+3. In your ``main`` function ``load_taxons()`` should be called first. It takes no parameters and loads all the approved taxons in JSON format. To check a PV or device name call the ``validate()`` function. ``validate()`` accepts a string as a parameter and returns ``True`` if the name is valid or  ``False`` if it's invalid.
 
 
 To run the web server:
@@ -82,4 +80,3 @@ Installation
 
 Running the Tests
 -----------------
-
