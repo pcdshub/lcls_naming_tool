@@ -15,9 +15,9 @@ def build_arg_parser(argparser=None):
     argparser.formatter_class = argparse.RawTextHelpFormatter
 
     argparser.add_argument(
-        'argument_name',
+        "argument_name",
         type=str,
-        help='Get help on this.',
+        help="Get help on this.",
     )
 
     return argparser
