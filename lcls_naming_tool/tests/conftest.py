@@ -1,5 +1,5 @@
 import os
 
-os.environ["LCLS_NAMING_TOOL_TAXONS_DIR"] = (
-    "/cds/home/j/janeliu/git/lcls_naming_tool/lcls_naming_tool/taxons"
-)
+parent = os.path.join(os.path.dirname(__file__), "..")
+
+os.environ["LCLS_NAMING_TOOL_TAXONS_DIR"] = parent + "/taxons"
