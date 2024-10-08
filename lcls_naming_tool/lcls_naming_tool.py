@@ -55,7 +55,6 @@ def load_taxons():
     global fc_dict
     global fg_dict
     global ccc_dict
-    global lcls_taxons_cfg
 
     # Read the json files containing all the taxons
     with open(lcls_taxons_cfg + "/functional_component_taxon.json") as fc_file:
