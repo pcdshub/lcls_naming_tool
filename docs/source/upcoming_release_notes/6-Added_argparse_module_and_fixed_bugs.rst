@@ -17,6 +17,7 @@ Bugfixes
 - Fixed inconsistencies in taxon JSON files.
 - Updated web app title with SLAC red hex value.
 - Updated app.py to load taxons whenever user validates a new name (to ensure they have the latest taxon JSONs).
+- Assigned a backup directory for users that don't have LCLS_NAMING_TOOL_TAXONS_DIR set.
 - Added .pre-commit-config.yaml file.
 - Updated README with instructions for installing the lcls_naming_tool module.
 - Updated release notes.
