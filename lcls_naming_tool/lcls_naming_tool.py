@@ -35,13 +35,19 @@ import re
 import subprocess
 import sys
 
-lcls_taxons_cfg = str(os.environ.get("LCLS_NAMING_TOOL_TAXONS_DIR"))
-
 fc_dict = {}
 fg_dict = {}
 ccc_dict = {}
 beam_sources = ("K", "L")
 beam_numbers = ("0", "1", "2", "3", "4", "5")
+
+
+def try_get_lcls_taxons_cfg():
+    if os.getenv("LCLS_NAMING_TOOL_TAXONS_DIR"):
+        return str(os.getenv("LCLS_NAMING_TOOL_TAXONS_DIR"))
+    else:
+        current_dir = os.path.join(os.path.dirname(__file__), "")
+        return current_dir + "/taxons"
 
 
 def get_version():
@@ -55,6 +61,8 @@ def load_taxons():
     global fc_dict
     global fg_dict
     global ccc_dict
+
+    lcls_taxons_cfg = try_get_lcls_taxons_cfg()
 
     # Read the json files containing all the taxons
     with open(lcls_taxons_cfg + "/functional_component_taxon.json") as fc_file:
