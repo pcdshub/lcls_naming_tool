@@ -3,7 +3,7 @@
 
 export ACCESS_LOG_FORMAT='%(h)s %(l)s %({REMOTE_USER}i)s %(t)s "%(r)s" "%(q)s" %(s)s %(b)s %(D)s'
 
-export LCLS_NAMING_TOOL_TAXONS_DIR="$(pwd)/lcls_naming_tool/taxons"
+export LCLS_NAMING_TOOL_TAXONS_DIR="/cds/group/pcds/pyps/apps/lcls_naming_tool/taxons"
 
 source /cds/group/pcds/pyps/conda/venvs/lcls_naming_tool/bin/activate
 
