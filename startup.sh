@@ -5,7 +5,7 @@ export ACCESS_LOG_FORMAT='%(h)s %(l)s %({REMOTE_USER}i)s %(t)s "%(r)s" "%(q)s" %
 
 export LCLS_NAMING_TOOL_TAXONS_DIR="/cds/group/pcds/pyps/apps/lcls_naming_tool/taxons"
 
-export HOME_DIR="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+export HOME_DIR="$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )"
 
 export PYTHONPATH="${HOME_DIR}/lcls_naming_tool"
 
