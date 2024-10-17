@@ -61,20 +61,20 @@ In the top-level folder of your git cloned repo create a start.sh bash file with
 Instructions for the CLI Tool
 ------------
 
-From the top-level folder navgiate to the folder ``lcls_naming_tool``.
+From the top-level folder navigate to the folder ``lcls_naming_tool``.
 
-There are two ways to check if a PV or device name is valid. It can be piped in or use the argparse command line syntax:
+There are two ways to check if a PV or device name is valid. It can be piped in or use the argparse command line syntax.
 
 ``echo 'MR2K4:KBO:PIP:01:PUMPSIZE' | ./lcls_naming_tool.py``
 
 ``python lcls_naming_tool.py 'MR2K4:KBO:PIP:01:PUMPSIZE'``
 
 
-Similarly, there are two ways to check names in a file. It can be piped in or use the argparse command line syntax (all names in a text file should be separated by newline characters):
+Similarly, there are two ways to check names in a file. It can be piped in or use the argparse command line syntax. All names in a text file should be separated by newline characters.
 
 ``cat pvlist.txt | ./lcls_naming_tool.py``
 
-``python lcls_naming_tool.py -f pvlist.txt`` (add a flag '-f' to indicate this is a file)
+``python lcls_naming_tool.py -f pvlist.txt`` (add a flag ``-f`` to indicate this is a file)
 
 
 Instructions for Use in a File
