@@ -52,11 +52,11 @@ To use the command line interface:
 
 To use in your Python file:
 
-1. In your Python file add ``from lcls_naming_tool import load_taxons, validate`` to the top.
+1. In your Python file add ``from lcls_naming_tool.lcls_naming_tool import load_taxons, validate`` to the top.
 
-2. In your ``main`` function call ``load_taxons()``. ``load_taxons`` takes no parameters and loads all the approved taxons in JSON format.
+2. In your function call ``load_taxons()`` first. ``load_taxons`` takes no parameters and loads all the approved taxons in JSON format.
 
-3. To check a PV or device name call the ``validate()`` function. ``validate`` accepts a PV or device name in string format as a parameter and returns ``True`` if the name is valid or  ``False`` if it's invalid.
+3. To check a PV or device name call the ``validate()`` function. ``validate`` accepts one parameter--a PV or device name in string format--and returns ``True`` if the name is valid or  ``False`` if it's invalid.
 
 
 To run the web server:
