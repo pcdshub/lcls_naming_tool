@@ -9,8 +9,6 @@ lcls_naming_tool
         :target: https://pypi.python.org/pypi/lcls_naming_tool
 
 
-`Documentation <https://pcdshub.github.io/lcls_naming_tool/>`_
-
 A tool that checks the form and content of PV and device names with respect to the LCLS naming convention.
 
 Taxons used are sourced from:
@@ -22,31 +20,43 @@ https://docs.google.com/spreadsheets/d/1u5EfR9FIvwyTieWiMkCRqpBfHj-_xm3AygjFlxxW
 https://docs.google.com/spreadsheets/d/1SeQhfwZ6O-wg8tyr_MCQZY1boJC-6j3N6EzexfZB-AU/edit?gid=0#gid=0
 
 
+Requirements
+------------
+
+* Python 3.9+
+* Flask 2.2.5 (web only)
+* Gunicorn 23.0.0 (web only)
+
+
+Installation
+------------
+
+In the top-level folder of your git cloned repository create a Python virtual environment and activate.
+
+Upgrade Python to 3.9 or later if needed.
+
+Install the LCLS Naming Tool module with ``pip install lcls_naming_tool``
+
+
 Instructions
 ------------
 
-Use at the command line:
+To use the command line interface:
 
-1. In your current working directory type ``source /cds/group/pcds/pyps/conda/venvs/lcls_naming_tool/bin/activate``
+1. From the top-level folder navgiate to the folder ``lcls_naming_tool``.
 
-2. To check if a PV or device name is valid pipe in the name to the tool. For example, ``$ echo 'MR2K4:KBO:PIP:01:PUMPSIZE' | ./lcls_naming_tool.py``
+2. To check if a PV or device name is valid pipe in the name to the tool. For example, ``echo 'MR2K4:KBO:PIP:01:PUMPSIZE' | ./lcls_naming_tool.py``
 
-3. To check if a list of names is valid pipe in the file name to the tool. For example, ``$ cat pvlist.txt | ./lcls_naming_tool.py`` (names should be separated by newline characters.)
-
-4. To view the current version add ``-v`` or ``--version``. For example, ``$ echo 'MR2K4:KBO:PIP:01:PUMPSIZE' | ./lcls_naming_tool.py --version``
+3. To check if a list of names is valid pipe in the file name to the tool. For example, ``cat pvlist.txt | ./lcls_naming_tool.py``. All names in a text file should be separated by newline characters.
 
 
-Use in a Python script:
+To use in your Python file:
 
-1. In your current working directory set up the environment:
+1. In your Python file add ``from lcls_naming_tool import load_taxons, validate`` to the top.
 
-``source /cds/group/pcds/pyps/conda/venvs/lcls_naming_tool/bin/activate``
+2. In your ``main`` function call ``load_taxons()``. ``load_taxons`` takes no parameters and loads all the approved taxons in JSON format.
 
-``pip install lcls_naming_tool``
-
-2. Add ``from lcls_naming_tool import load_taxons, validate`` to the top of your file.
-
-3. In your ``main`` function ``load_taxons()`` should be called first. It takes no parameters and loads all the approved taxons in JSON format. To check a PV or device name call the ``validate()`` function. ``validate()`` accepts a string as a parameter and returns ``True`` if the name is valid or  ``False`` if it's invalid.
+3. To check a PV or device name call the ``validate()`` function. ``validate`` accepts a PV or device name in string format as a parameter and returns ``True`` if the name is valid or  ``False`` if it's invalid.
 
 
 To run the web server:
@@ -64,18 +74,6 @@ To run the web server:
 ``supervisor> start lcls_naming_tool``
 
 Website is hosted at https://pswww.slac.stanford.edu/lcls_naming_tool/
-
-
-Requirements
-------------
-
-* Python 3.9+
-* Flask 2.2.5 (web only)
-* Gunicorn 23.0.0 (web only)
-
-
-Installation
-------------
 
 
 Running the Tests
