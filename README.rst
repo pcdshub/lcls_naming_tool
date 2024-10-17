@@ -33,33 +33,73 @@ Installation
 
 In the top-level folder of your git cloned repository create a Python virtual environment and activate.
 
-Upgrade Python to 3.9 or later if needed.
+Upgrade Python to 3.9+ if needed.
 
 Install the LCLS Naming Tool module with ``pip install lcls_naming_tool``
 
 
-Instructions
+Installation for Web
 ------------
 
-To use the command line interface:
+After following the installation instructions above, install Flask and gunicorn:
 
-1. From the top-level folder navgiate to the folder ``lcls_naming_tool``.
+``pip install Flask``
 
-2. To check if a PV or device name is valid pipe in the name to the tool. For example, ``echo 'MR2K4:KBO:PIP:01:PUMPSIZE' | ./lcls_naming_tool.py``
+``pip install gunicorn``
 
-3. To check if a list of names is valid pipe in the file name to the tool. For example, ``cat pvlist.txt | ./lcls_naming_tool.py``. All names in a text file should be separated by newline characters.
+In the top-level folder of your git cloned repo create a start.sh bash file with the following lines:
 
+``export HOME_DIR="$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )"``
+
+``export PYTHONPATH="${HOME_DIR}/lcls_naming_tool"``
+
+``cd "${HOME_DIR}/lcls_naming_tool/web"``
+
+``exec gunicorn app:app -b 0.0.0.0:8080 \``
+
+
+Instructions for the CLI Tool
+------------
+
+From the top-level folder navgiate to the folder ``lcls_naming_tool``.
+
+There are two ways to check if a PV or device name is valid. It can be piped in or use the argparse command line syntax:
+
+``echo 'MR2K4:KBO:PIP:01:PUMPSIZE' | ./lcls_naming_tool.py``
+
+``python lcls_naming_tool.py 'MR2K4:KBO:PIP:01:PUMPSIZE'``
+
+
+Similarly, there are two ways to check names in a file. It can be piped in or use the argparse command line syntax (all names in a text file should be separated by newline characters):
+
+``cat pvlist.txt | ./lcls_naming_tool.py``
+
+``python lcls_naming_tool.py -f pvlist.txt`` (add a flag '-f' to indicate this is a file)
+
+
+Instructions for Use in a File
+------------
 
 To use in your Python file:
 
-1. In your Python file add ``from lcls_naming_tool.lcls_naming_tool import load_taxons, validate`` to the top.
+1. At the top of your Python file add ``from lcls_naming_tool.lcls_naming_tool import load_taxons, validate``.
 
-2. In your function call ``load_taxons()`` first. ``load_taxons`` takes no parameters and loads all the approved taxons in JSON format.
+2. In your file call ``load_taxons()`` first. ``load_taxons`` will load all the approved taxons in JSON format and make it available to the ``validate`` function.
 
-3. To check a PV or device name call the ``validate()`` function. ``validate`` accepts one parameter--a PV or device name in string format--and returns ``True`` if the name is valid or  ``False`` if it's invalid.
+3. To check a PV or device name call the ``validate()`` function. ``validate`` accepts one parameter--a PV or device name in string format--and returns ``True`` if the name is valid or ``False`` if it's invalid.
 
 
-To run the web server:
+Instructions for Web
+------------
+
+To run the web server on your local machine:
+
+From the top-level folder type ``./start.sh``
+
+View the web app on your local computer at http://localhost:8080
+
+
+To run the web server (ECS only):
 
 ``ssh psca@psctlws01``
 
@@ -74,7 +114,3 @@ To run the web server:
 ``supervisor> start lcls_naming_tool``
 
 Website is hosted at https://pswww.slac.stanford.edu/lcls_naming_tool/
-
-
-Running the Tests
------------------
