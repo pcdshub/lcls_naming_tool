@@ -260,6 +260,11 @@ def main():
     parser.add_argument(
         "string", nargs="*", type=str, help="PV or device name to validate"
     )
+    parser.add_argument(
+        "-f",
+        type=argparse.FileType("r"),
+        help="Pass in a file containing PV or device names to validate (separate names with newline characters)",
+    )
     parser.add_argument("-v", "--version", action="store_true")
     args = parser.parse_args()
 
@@ -268,16 +273,25 @@ def main():
         print(version)
         sys.exit()
 
-    # If no strings are provided via command line arguments, read from stdin
-    if not args.string:
+    if args.f:
+        with args.f as file:
+            for name in file:
+                if validate(name):
+                    print("Valid")
+                else:
+                    print("Invalid")
+
+    # If no string or filename is provided via command line arguments, read from stdin
+    if not args.string and not args.f:
         args.string = sys.stdin.read().splitlines()
 
     # Process the strings
-    for string in args.string:
-        if validate(string):
-            print("Valid")
-        else:
-            print("Invalid")
+    if args.string:
+        for string in args.string:
+            if validate(string):
+                print("Valid")
+            else:
+                print("Invalid")
 
 
 if __name__ == "__main__":
