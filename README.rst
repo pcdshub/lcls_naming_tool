@@ -24,6 +24,7 @@ Requirements
 ------------
 
 * Python 3.9+
+* Linux (RHEL or Ubuntu)
 * Flask 2.2.5 (web only)
 * Gunicorn 23.0.0 (web only)
 
