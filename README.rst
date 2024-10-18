@@ -1,5 +1,5 @@
 ===============================
-lcls_naming_tool
+LCLS Naming Tool
 ===============================
 
 .. image:: https://github.com/pcdshub/lcls_naming_tool/actions/workflows/standard.yml/badge.svg
@@ -36,7 +36,7 @@ In the top-level folder of your git cloned repository create a Python virtual en
 
 Upgrade Python to 3.9+ if needed.
 
-Install the LCLS Naming Tool module with ``pip install lcls_naming_tool``
+Install the most recently tagged build ``pip install lcls_naming_tool``
 
 
 Installation for Web
@@ -59,7 +59,7 @@ In the top-level folder of your git cloned repo create a start.sh bash file with
 ``exec gunicorn app:app -b 0.0.0.0:8080 \``
 
 
-Instructions for the CLI Tool
+Instructions for the CLI
 ------------
 
 From the top-level folder navigate to the folder ``lcls_naming_tool``.
