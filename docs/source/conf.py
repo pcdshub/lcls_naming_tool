@@ -92,7 +92,7 @@ exclude_patterns = []
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
 #
-default_role = 'any'
+default_role = "any"
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = "sphinx"
@@ -203,7 +203,7 @@ texinfo_documents = [
 
 # Intersphinx
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/3', None),
+    "python": ("https://docs.python.org/3", None),
 }
 
 
@@ -213,5 +213,4 @@ inheritance_graph_attrs = dict(
     size='""',
 )
 
-inheritance_alias = {
-}
+inheritance_alias = {}

@@ -1,5 +1,5 @@
 ===============================
-lcls_naming_tool
+LCLS Naming Tool
 ===============================
 
 .. image:: https://github.com/pcdshub/lcls_naming_tool/actions/workflows/standard.yml/badge.svg
@@ -8,8 +8,6 @@ lcls_naming_tool
 .. image:: https://img.shields.io/pypi/v/lcls_naming_tool.svg
         :target: https://pypi.python.org/pypi/lcls_naming_tool
 
-
-`Documentation <https://pcdshub.github.io/lcls_naming_tool/>`_
 
 A tool that checks the form and content of PV and device names with respect to the LCLS naming convention.
 
@@ -22,36 +20,87 @@ https://docs.google.com/spreadsheets/d/1u5EfR9FIvwyTieWiMkCRqpBfHj-_xm3AygjFlxxW
 https://docs.google.com/spreadsheets/d/1SeQhfwZ6O-wg8tyr_MCQZY1boJC-6j3N6EzexfZB-AU/edit?gid=0#gid=0
 
 
-Instructions
+Requirements
 ------------
 
-Use at the command line:
-
-1. In your current working directory type ``source /cds/group/pcds/pyps/conda/venvs/lcls_naming_tool/bin/activate``
-
-2. To check if a PV or device name is valid pipe in the name to the tool. For example, ``$ echo "MR2K4:KBO:PIP:01:PUMPSIZE" | ./lcls_naming_tool.py``
-
-3. To check if a list of names is valid pipe in the file name to the tool. For example, ``$ cat pvlist.txt | ./lcls_naming_tool.py`` (names should be separated by newline characters.)
-
-4. To view the current version add ``-v`` or ``--version``. For example, ``$ echo "MR2K4:KBO:PIP:01:PUMPSIZE" | ./lcls_naming_tool.py --version``
+* Python 3.9+
+* Linux (RHEL or Ubuntu)
+* Flask 2.2.5 (web only)
+* Gunicorn 23.0.0 (web only)
 
 
-Use in a Python script:
+Installation
+------------
 
-1. In your current working directory set up the environment: 
+In the top-level folder of your git cloned repository create a Python virtual environment and activate.
 
-``source /cds/group/pcds/pyps/conda/venvs/lcls_naming_tool/bin/activate``
+Upgrade Python to 3.9+ if needed.
 
-``git clone git@github.com:pcdshub/lcls_naming_tool.git``
-
-``export PYTHONPATH=$PWD/lcls_naming_tool/lcls_naming_tool``
-
-2. To call the LCLS Naming Tool module ``from lcls_naming_tool import load_taxons, validate``
-
-5. In your ``main`` function ``load_taxons()`` should be called first. It takes no parameters and loads all the approved taxons in JSON format. The function ``validate()`` takes a PV or device name in string format as a parameter and returns ``True`` for a valid name or ``False`` for an invalid name.
+Install the most recently tagged build ``pip install lcls_naming_tool``
 
 
-To run the web server:
+Installation for Web
+------------
+
+After following the installation instructions above, install Flask and gunicorn:
+
+``pip install Flask``
+
+``pip install gunicorn``
+
+In the top-level folder of your git cloned repo create a start.sh bash file with the following lines:
+
+``export HOME_DIR="$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )"``
+
+``export PYTHONPATH="${HOME_DIR}/lcls_naming_tool"``
+
+``cd "${HOME_DIR}/lcls_naming_tool/web"``
+
+``exec gunicorn app:app -b 0.0.0.0:8080 \``
+
+
+Instructions for the CLI
+------------
+
+From the top-level folder navigate to the folder ``lcls_naming_tool``.
+
+There are two ways to check if a PV or device name is valid. It can be piped in or use the argparse command line syntax.
+
+``echo 'MR2K4:KBO:PIP:01:PUMPSIZE' | ./lcls_naming_tool.py``
+
+``python lcls_naming_tool.py 'MR2K4:KBO:PIP:01:PUMPSIZE'``
+
+
+Similarly, there are two ways to check names in a file. It can be piped in or use the argparse command line syntax. All names in a text file should be separated by newline characters.
+
+``cat pvlist.txt | ./lcls_naming_tool.py``
+
+``python lcls_naming_tool.py -f pvlist.txt`` (add a flag ``-f`` to indicate this is a file)
+
+
+Instructions for Use in a File
+------------
+
+To use in your Python file:
+
+1. At the top of your Python file add ``from lcls_naming_tool.lcls_naming_tool import load_taxons, validate``.
+
+2. In your file call ``load_taxons()`` first. ``load_taxons`` will load all the approved taxons in JSON format and make it available to the ``validate`` function.
+
+3. To check a PV or device name call the ``validate()`` function. ``validate`` accepts one parameter--a PV or device name in string format--and returns ``True`` if the name is valid or ``False`` if it's invalid.
+
+
+Instructions for Web
+------------
+
+To run the web server on your local machine:
+
+From the top-level folder type ``./start.sh``
+
+View the web app on your local computer at http://localhost:8080
+
+
+To run the web server (ECS only):
 
 ``ssh psca@psctlws01``
 
@@ -66,20 +115,3 @@ To run the web server:
 ``supervisor> start lcls_naming_tool``
 
 Website is hosted at https://pswww.slac.stanford.edu/lcls_naming_tool/
-
-
-Requirements
-------------
-
-* Python 3.9+
-* Flask 2.2.5 (web only)
-* Gunicorn 23.0.0 (web only)
-
-
-Installation
-------------
-
-
-Running the Tests
------------------
-
