@@ -3,12 +3,16 @@
 
 # language-specific group(s)
 ## PYTHON files
-*.py @pcdshub/python-reviewers
-*.pyi @pcdshub/python-reviewers
-*.pyc @pcdshub/python-reviewers
-*.pyw @pcdshub/python-reviewers
-*.pyx @pcdshub/python-reviewers
-*.pyd @pcdshub/python-reviewers
+*.py @pcdshub/python-reviewers @pcdshub/lcls-naming-council
+*.pyi @pcdshub/python-reviewers @pcdshub/lcls-naming-council
+*.pyc @pcdshub/python-reviewers @pcdshub/lcls-naming-council
+*.pyw @pcdshub/python-reviewers @pcdshub/lcls-naming-council
+*.pyx @pcdshub/python-reviewers @pcdshub/lcls-naming-council
+*.pyd @pcdshub/python-reviewers @pcdshub/lcls-naming-council
+
+# LCLS PV name components
+## JSON files
+*.json @pcdshub/lcls-naming-council
 
 # github folder holds administrative files
 .github/** @pcdshub/software-admin
