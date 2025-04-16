@@ -1,0 +1,18 @@
+# default group
+* @pcdshub/python-reviewers
+
+# language-specific group(s)
+## PYTHON files
+*.py @pcdshub/python-reviewers @pcdshub/lcls-naming-council
+*.pyi @pcdshub/python-reviewers @pcdshub/lcls-naming-council
+*.pyc @pcdshub/python-reviewers @pcdshub/lcls-naming-council
+*.pyw @pcdshub/python-reviewers @pcdshub/lcls-naming-council
+*.pyx @pcdshub/python-reviewers @pcdshub/lcls-naming-council
+*.pyd @pcdshub/python-reviewers @pcdshub/lcls-naming-council
+
+# LCLS PV name components
+## JSON files
+*.json @pcdshub/lcls-naming-council
+
+# github folder holds administrative files
+.github/** @pcdshub/software-admin
